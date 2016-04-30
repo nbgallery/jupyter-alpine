@@ -1,0 +1,9 @@
+#!/bin/bash -e
+
+gem install \
+  --clear-sources \
+  --source http://rubygems.org/ \
+  $@ \
+
+rm /usr/lib/ruby/gems/2.2.0/cache/*
+

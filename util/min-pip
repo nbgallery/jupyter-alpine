@@ -1,0 +1,8 @@
+#!/bin/bash -e
+
+pip install --no-cache-dir $@
+
+rm -rf /usr/lib/python2*/site-packages/*/tests
+rm -rf /usr/lib/python2*/site-packages/*/*/tests
+python -m compileall /usr/lib/python2*/site-packages || true
+find /usr/lib/python2*/site-packages -name '*.py' -delete
