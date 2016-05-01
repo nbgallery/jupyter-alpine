@@ -18,3 +18,4 @@ cd ../../
 rm -rf min-package
 
 strip --strip-unneeded --strip-debug /usr/local/lib/*.a || true
+strip --strip-unneeded --strip-debug /usr/local/lib/*.so* || true

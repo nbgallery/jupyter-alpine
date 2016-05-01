@@ -21,6 +21,7 @@ RUN \
   echo "http://dl-4.alpinelinux.org/alpine/edge/testing/" >> /etc/apk/repositories
 
 COPY util/* /usr/local/bin/
+COPY config/bashrc /root/.bashrc
 RUN min-apk \
   bash \
   bzip2 \
@@ -35,9 +36,12 @@ RUN min-apk \
   tar \
   tini && \
   rm /usr/libexec/gcc/x86_64-alpine-linux-musl/5.3.0/cc1obj && \
-  rm /usr/bin/gcov* /usr/bin/gprof
+  rm /usr/bin/gcov* /usr/bin/gprof && \
+  rm -rf /usr/include/c++/*/java && \
+  rm -rf /usr/include/c++/*/javax
 
-RUN min-package http://download.zeromq.org/zeromq-4.0.4.tar.gz
+RUN min-package http://download.zeromq.org/zeromq-4.0.4.tar.gz && \
+  rm /usr/local/share/man/*/zmq*
 
 
 ############################################
