@@ -1,2 +1,2 @@
 # jupyter-docker
-Minimal jupyter images
+Minimal jupyter images based on alpine
