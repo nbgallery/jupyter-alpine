@@ -12,36 +12,47 @@ ENV \
   CPPFLAGS=-s \
   SHELL=/bin/bash
 
-ENTRYPOINT ["/usr/bin/tini", "--"]
+ENTRYPOINT ["/sbin/tini", "--"]
 CMD ["jupyter", "notebook"]
-
-RUN \
-  echo "http://nl.alpinelinux.org/alpine/edge/testing/" >> /etc/apk/repositories && \
-  echo "http://nl.alpinelinux.org/alpine/edge/community/" >> /etc/apk/repositories && \
-  echo "http://dl-4.alpinelinux.org/alpine/edge/testing/" >> /etc/apk/repositories
 
 COPY util/* /usr/local/bin/
 COPY config/bashrc /root/.bashrc
-RUN min-apk \
-  bash \
-  bzip2 \
-  curl \
-  file \
-  gcc \
-  g++ \
-  make \
-  openssh-client \
-  patch \
-  readline-dev \
-  tar \
-  tini && \
-  rm /usr/libexec/gcc/x86_64-alpine-linux-musl/5.3.0/cc1obj && \
-  rm /usr/bin/gcov* /usr/bin/gprof && \
+RUN \
+  echo "http://dl-3.alpinelinux.org/alpine/edge/main/" >> /etc/apk/repositories && \
+  echo "http://dl-3.alpinelinux.org/alpine/edge/testing/" >> /etc/apk/repositories && \
+  echo "http://dl-3.alpinelinux.org/alpine/edge/community/" >> /etc/apk/repositories && \
+  echo "http://dl-4.alpinelinux.org/alpine/edge/main/" >> /etc/apk/repositories && \
+  echo "http://dl-4.alpinelinux.org/alpine/edge/testing/" >> /etc/apk/repositories && \
+  echo "http://dl-4.alpinelinux.org/alpine/edge/community/" >> /etc/apk/repositories && \
+  echo "http://nl.alpinelinux.org/alpine/edge/main/" >> /etc/apk/repositories && \
+  echo "http://nl.alpinelinux.org/alpine/edge/testing/" >> /etc/apk/repositories && \
+  echo "http://nl.alpinelinux.org/alpine/edge/community/" >> /etc/apk/repositories && \
+  min-apk \
+    bash \
+    bzip2 \
+    curl \
+    file \
+    gcc \
+    g++ \
+    make \
+    openssh-client \
+    patch \
+    readline-dev \
+    tar \
+    tini && \
+  min-package http://download.zeromq.org/zeromq-4.0.4.tar.gz && \
+  rm /usr/local/share/man/*/zmq* && \
   rm -rf /usr/include/c++/*/java && \
-  rm -rf /usr/include/c++/*/javax
-
-RUN min-package http://download.zeromq.org/zeromq-4.0.4.tar.gz && \
-  rm /usr/local/share/man/*/zmq*
+  rm -rf /usr/include/c++/*/javax && \
+  rm -rf /usr/include/c++/*/gnu/awt && \
+  rm -rf /usr/include/c++/*/gnu/classpath && \
+  rm -rf /usr/include/c++/*/gnu/gcj && \
+  rm -rf /usr/include/c++/*/gnu/java && \
+  rm -rf /usr/include/c++/*/gnu/javax && \
+  rm /usr/libexec/gcc/x86_64-alpine-linux-musl/*/cc1obj && \
+  rm /usr/bin/gcov* && \
+  rm /usr/bin/gprof && \
+  rm /usr/bin/*gcj
 
 
 ############################################
@@ -74,14 +85,18 @@ ENV \
   RUBY_GC_MALLOC_LIMIT=4000100 \
   RUBY_GC_MALLOC_LIMIT_MAX=16000100
 
-RUN min-apk libffi-dev ruby ruby-dev
 COPY config/gemrc /etc/gemrc
-RUN min-gem \
-  ffi-rzmq \
-  io-console \
-  iruby:0.2.8 \
-  pry
-RUN iruby register
+RUN \
+  min-apk \
+    libffi-dev \
+    ruby \
+    ruby-dev && \
+  min-gem \
+    ffi-rzmq \
+    io-console \
+    iruby:0.2.8 \
+    pry && \
+  iruby register
 
 
 ############################################
@@ -89,4 +104,5 @@ RUN iruby register
 ############################################
 COPY patches /root/patches/
 RUN for i in /root/patches/*; do (cd / && patch -b -p0) < $i; done && rm -r /root/patches
+
 
