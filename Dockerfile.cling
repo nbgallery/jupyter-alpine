@@ -12,6 +12,9 @@ ENV CXXFLAGS="-fpermissive -D_GLIBCXX_USE_CXX11_ABI=0"
 # include here, so let's put it in a separate script.
 COPY build-cling-kernel /usr/local/bin/
 
+# This patch allows us to remove the cling executable to save space.
+COPY cling-kernel-patches .cling-kernel-patches
+
 # Get source, build, cleanup.
 RUN \
   min-apk git && \
@@ -23,6 +26,8 @@ RUN \
   git clone http://root.cern.ch/git/clang.git && \
   cd clang && \
   git checkout cling-patches && \
+  cd ../cling && \
+  patch -p1 < ../../../.cling-kernel-patches && \
   cd ../.. && \
   patch -p1 < ../.alpine-cling-patches && \
   cd .. && \
@@ -48,6 +53,7 @@ RUN \
   rm -rf src && \
   rm -rf build && \
   rm /usr/local/bin/clang* && \
+  rm /usr/local/bin/cling && \
   rm /usr/local/bin/llvm-tblgen && \
   rm /usr/local/lib/libclang*.a && \
   rm /usr/local/lib/libcling*.a && \
