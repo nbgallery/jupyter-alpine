@@ -1,5 +1,5 @@
 FROM alpine
-MAINTAINER jupyter-gallery
+MAINTAINER https://github.com/jupyter-gallery
 
 
 ############################################
@@ -96,13 +96,14 @@ RUN \
     io-console \
     iruby:0.2.8 \
     pry && \
-  iruby register
+  iruby register && \
+  sed -i "/^gem/i ENV['PAGER'] = 'more'" /usr/bin/pry
 
 
 ############################################
 # Install patches
 ############################################
-COPY patches /root/patches/
-RUN for i in /root/patches/*; do (cd / && patch -b -p0) < $i; done && rm -r /root/patches
+#COPY patches /root/patches/
+#RUN for i in /root/patches/*; do (cd / && patch -b -p0) < $i; done && rm -r /root/patches
 
 
