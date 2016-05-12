@@ -1,0 +1,55 @@
+FROM jupytergallery/base
+MAINTAINER https://github.com/jupyter-gallery
+
+# Patches to get cling to compile.
+# fopen64 is #defined as fopen somewhere so we get duplication errors.
+COPY alpine-cling-patches .alpine-cling-patches
+
+# Need this to get cling to compile too.
+ENV CXXFLAGS="-fpermissive -D_GLIBCXX_USE_CXX11_ABI=0"
+
+# The compile commands for the kernel are a little too messy to
+# include here, so let's put it in a separate script.
+COPY build-cling-kernel /usr/local/bin/
+
+# Get source, build, cleanup.
+RUN \
+  min-apk git && \
+  git clone http://root.cern.ch/git/llvm.git src && \
+  cd src && \
+  git checkout cling-patches && \
+  cd tools && \
+  git clone http://root.cern.ch/git/cling.git && \
+  git clone http://root.cern.ch/git/clang.git && \
+  cd clang && \
+  git checkout cling-patches && \
+  cd ../.. && \
+  patch -p1 < ../.alpine-cling-patches && \
+  cd .. && \
+  mkdir build && \
+  cd build && \
+  ../src/configure \
+    --enable-optimized \
+    --enable-cxx1y \
+    --enable-targets=host \
+    --disable-docs \
+    --disable-doxygen \
+    --disable-debug-symbols \
+    --disable-keep-symbols \
+    --disable-clang-arcmt \
+    --disable-clang-plugin-support \
+    --disable-clang-static-analyzer && \
+  make -j4 ONLY_TOOLS="clang" BUILD_EXAMPLES=0 && \
+  make -j4 ONLY_TOOLS="clang cling" BUILD_EXAMPLES=0 && \
+  make -j4 ONLY_TOOLS="clang cling" BUILD_EXAMPLES=0 install && \
+  /usr/local/bin/build-cling-kernel && \
+  apk del git && \
+  cd .. && \
+  rm -rf src && \
+  rm -rf build && \
+  rm /usr/local/bin/clang* && \
+  rm /usr/local/bin/llvm-tblgen && \
+  rm /usr/local/lib/libclang*.a && \
+  rm /usr/local/lib/libcling*.a && \
+  rm /usr/local/lib/libLLVM*.a
+

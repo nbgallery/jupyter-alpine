@@ -1,0 +1,113 @@
+diff --git a/include/llvm/Analysis/TargetLibraryInfo.h b/include/llvm/Analysis/TargetLibraryInfo.h
+index 261ef0e..f6bac53 100644
+--- a/include/llvm/Analysis/TargetLibraryInfo.h
++++ b/include/llvm/Analysis/TargetLibraryInfo.h
+@@ -298,8 +298,6 @@ class PreservedAnalyses;
+       fmodl,
+       /// FILE *fopen(const char *filename, const char *mode);
+       fopen,
+-      /// FILE *fopen64(const char *filename, const char *opentype)
+-      fopen64,
+       /// int fprintf(FILE *stream, const char *format, ...);
+       fprintf,
+       /// int fputc(int c, FILE *stream);
+@@ -322,8 +320,6 @@ class PreservedAnalyses;
+       fseek,
+       /// int fseeko(FILE *stream, off_t offset, int whence);
+       fseeko,
+-      /// int fseeko64(FILE *stream, off64_t offset, int whence)
+-      fseeko64,
+       /// int fsetpos(FILE *stream, const fpos_t *pos);
+       fsetpos,
+       /// int fstat(int fildes, struct stat *buf);
+@@ -338,8 +334,6 @@ class PreservedAnalyses;
+       ftell,
+       /// off_t ftello(FILE *stream);
+       ftello,
+-      /// off64_t ftello64(FILE *stream)
+-      ftello64,
+       /// int ftrylockfile(FILE *file);
+       ftrylockfile,
+       /// void funlockfile(FILE *file);
+@@ -651,8 +645,6 @@ class PreservedAnalyses;
+       times,
+       /// FILE *tmpfile(void);
+       tmpfile,
+-      /// FILE *tmpfile64(void)
+-      tmpfile64,
+       /// int toascii(int c);
+       toascii,
+       /// double trunc(double x);
+diff --git a/lib/Analysis/TargetLibraryInfo.cpp b/lib/Analysis/TargetLibraryInfo.cpp
+index 91041fc..b6dba2f 100644
+--- a/lib/Analysis/TargetLibraryInfo.cpp
++++ b/lib/Analysis/TargetLibraryInfo.cpp
+@@ -153,7 +153,6 @@ const char* TargetLibraryInfoImpl::StandardNames[LibFunc::NumLibFuncs] =
+     "fmodf",
+     "fmodl",
+     "fopen",
+-    "fopen64",
+     "fprintf",
+     "fputc",
+     "fputs",
+@@ -165,7 +164,6 @@ const char* TargetLibraryInfoImpl::StandardNames[LibFunc::NumLibFuncs] =
+     "fscanf",
+     "fseek",
+     "fseeko",
+-    "fseeko64",
+     "fsetpos",
+     "fstat",
+     "fstat64",
+@@ -173,7 +171,6 @@ const char* TargetLibraryInfoImpl::StandardNames[LibFunc::NumLibFuncs] =
+     "fstatvfs64",
+     "ftell",
+     "ftello",
+-    "ftello64",
+     "ftrylockfile",
+     "funlockfile",
+     "fwrite",
+@@ -327,7 +324,6 @@ const char* TargetLibraryInfoImpl::StandardNames[LibFunc::NumLibFuncs] =
+     "tanl",
+     "times",
+     "tmpfile",
+-    "tmpfile64",
+     "toascii",
+     "trunc",
+     "truncf",
+diff --git a/lib/Transforms/IPO/FunctionAttrs.cpp b/lib/Transforms/IPO/FunctionAttrs.cpp
+index 8925e4c..4ccef8f 100644
+--- a/lib/Transforms/IPO/FunctionAttrs.cpp
++++ b/lib/Transforms/IPO/FunctionAttrs.cpp
+@@ -1624,32 +1624,6 @@ bool FunctionAttrs::inferPrototypeAttributes(Function &F) {
+     setOnlyReadsMemory(F, 1);
+     setOnlyReadsMemory(F, 2);
+     break;
+-  case LibFunc::fopen64:
+-    if (FTy->getNumParams() != 2 ||
+-        !FTy->getReturnType()->isPointerTy() ||
+-        !FTy->getParamType(0)->isPointerTy() ||
+-        !FTy->getParamType(1)->isPointerTy())
+-      return false;
+-    setDoesNotThrow(F);
+-    setDoesNotAlias(F, 0);
+-    setDoesNotCapture(F, 1);
+-    setDoesNotCapture(F, 2);
+-    setOnlyReadsMemory(F, 1);
+-    setOnlyReadsMemory(F, 2);
+-    break;
+-  case LibFunc::fseeko64:
+-  case LibFunc::ftello64:
+-    if (FTy->getNumParams() == 0 || !FTy->getParamType(0)->isPointerTy())
+-      return false;
+-    setDoesNotThrow(F);
+-    setDoesNotCapture(F, 1);
+-    break;
+-  case LibFunc::tmpfile64:
+-    if (!FTy->getReturnType()->isPointerTy())
+-      return false;
+-    setDoesNotThrow(F);
+-    setDoesNotAlias(F, 0);
+-    break;
+   case LibFunc::fstat64:
+   case LibFunc::fstatvfs64:
+     if (FTy->getNumParams() != 2 || !FTy->getParamType(1)->isPointerTy())
