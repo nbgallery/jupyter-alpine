@@ -74,33 +74,6 @@ COPY config/jupyter /root/.jupyter/
 
 
 ############################################
-# Install Ruby
-############################################
-ENV \
-  RUBY_GC_HEAP_GROWTH_FACTOR=1.1 \
-  RUBY_GC_MALLOC_LIMIT_GROWTH_FACTOR=1.1 \
-  RUBY_GC_OLDMALLOC_LIMIT_GROWH_FACTOR=1.1 \
-  RUBY_GC_OLDMALLOC_LIMIT=16000100 \
-  RUBY_GC_OLDMALLOC_LIMIT_MAX=16000100 \
-  RUBY_GC_MALLOC_LIMIT=4000100 \
-  RUBY_GC_MALLOC_LIMIT_MAX=16000100
-
-COPY config/gemrc /etc/gemrc
-RUN \
-  min-apk \
-    libffi-dev \
-    ruby \
-    ruby-dev && \
-  min-gem \
-    ffi-rzmq \
-    io-console \
-    iruby:0.2.8 \
-    pry && \
-  iruby register && \
-  sed -i "/^gem/i ENV['PAGER'] = 'more'" /usr/bin/pry
-
-
-############################################
 # Install patches
 ############################################
 #COPY patches /root/patches/

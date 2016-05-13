@@ -1,3 +1,6 @@
+# Patches to get llvm to compile.
+# fopen64 is defined as fopen somewhere, so we get duplicate symbol errors.
+# Same with the other functions.
 diff --git a/include/llvm/Analysis/TargetLibraryInfo.h b/include/llvm/Analysis/TargetLibraryInfo.h
 index 261ef0e..f6bac53 100644
 --- a/include/llvm/Analysis/TargetLibraryInfo.h

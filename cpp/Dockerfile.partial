@@ -1,0 +1,9 @@
+############################################
+# Install C++
+############################################
+
+# Commands are in a script for better readability.
+COPY cpp/files .cpp/
+RUN .cpp/build-cling-kernel
+
+

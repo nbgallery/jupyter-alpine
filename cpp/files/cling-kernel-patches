@@ -1,3 +1,5 @@
+# The cling executable is only used to get the path to the library.
+# This patch lets us remove the executable to save space.
 diff --git a/tools/Jupyter/kernel/clingkernel.py b/tools/Jupyter/kernel/clingkernel.py
 index befb193..81250e4 100644
 --- a/tools/Jupyter/kernel/clingkernel.py
