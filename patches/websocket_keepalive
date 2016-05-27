@@ -1,0 +1,23 @@
+--- /usr/lib/python2.7/site-packages/terminado/websocket.py.orig
++++ /usr/lib/python2.7/site-packages/terminado/websocket.py
+@@ -40,6 +40,7 @@
+
+ import tornado.web
+ import tornado.websocket
++from zmq.eventloop.ioloop import DelayedCallback
+
+ def _cast_unicode(s):
+     if isinstance(s, bytes):
+@@ -78,6 +79,12 @@
+
+         self.send_json_message(["setup", {}])
+         self._logger.info("TermSocket.open: Opened %s", self.term_name)
++        DelayedCallback(self.keep_alive, 30000, io_loop=tornado.ioloop.IOLoop.instance()).start()
++
++    def keep_alive(self):
++        if not self.stream.closed():
++            self.ping(".")
++            DelayedCallback(self.keep_alive, 30000, io_loop=tornado.ioloop.IOLoop.instance()).start()
+
+     def on_pty_read(self, text):
+         """Data read from pty; send to frontend"""
