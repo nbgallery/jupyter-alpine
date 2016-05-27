@@ -19,7 +19,8 @@ RUN \
   min-gem \
     ffi-rzmq \
     io-console \
-    iruby:0.2.8 \
+    iruby \
+    iruby-dependencies \
     pry && \
   iruby register && \
   sed -i "/^gem/i ENV['PAGER'] = 'more'" /usr/bin/pry

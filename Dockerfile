@@ -17,6 +17,7 @@ CMD ["jupyter", "notebook"]
 
 COPY util/* /usr/local/bin/
 COPY config/bashrc /root/.bashrc
+COPY patches /root/.patches
 RUN \
   echo "http://dl-3.alpinelinux.org/alpine/edge/main/" >> /etc/apk/repositories && \
   echo "http://dl-3.alpinelinux.org/alpine/edge/testing/" >> /etc/apk/repositories && \
@@ -56,27 +57,16 @@ RUN \
 
 
 ############################################
-# Install Python2
+# Install Python2 & Jupyter
 ############################################
-RUN min-apk \
-  python \
-  python-dev  \
-  py-pip
-#COPY config/pip.conf /etc/pip.conf
-
-
-############################################
-# Install Jupyter
-############################################
-RUN min-pip notebook ipywidgets
 COPY config/jupyter /root/.jupyter/
-#COPY *.ipynb /root/
-
-
-############################################
-# Install patches
-############################################
-#COPY patches /root/patches/
-#RUN for i in /root/patches/*; do (cd / && patch -b -p0) < $i; done && rm -r /root/patches
+#COPY config/pip.conf /etc/pip.conf # if desired
+#COPY *.ipynb /root/ # if desired
+RUN \
+  min-apk python python-dev py-pip && \
+  min-pip notebook ipywidgets && \
+  cd / && \
+  patch -p0 < /root/.patches/websocket_keepalive && \
+  clean-py-files /usr/lib/python2*
 
 

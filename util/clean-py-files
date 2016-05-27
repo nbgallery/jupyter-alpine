@@ -1,0 +1,11 @@
+#!/bin/sh
+
+if [ -z "$1" ]; then
+  echo Usage: `basename $0` dir
+  exit
+fi
+
+echo Compiling and removing .py files from $1
+python -m compileall $1
+find $1 -name '*.py' -delete
+true
