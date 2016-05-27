@@ -1,0 +1,13 @@
+#!/bin/bash -e
+
+if [ "$(which `basename $0`)" = "$0" ]; then
+  echo "Installing iruby ..."
+  # the default gemset for ruby 2.0
+  apk add --update libffi-dev ruby=2.2.4-r0 ruby-dev=2.2.4-r0 ruby-irb=2.2.4-r0 ruby-bigdecimal=2.2.4-r0 ruby-io-console=2.2.4-r0 ruby-json=2.2.4-r0 ruby-minitest=2.2.4-r0 ruby-rake=2.2.4-r0 ruby-rdoc=2.2.4-r0 
+  gem install --no-ri --no-rdoc psych test-unit ffi-rzmq pry iruby iruby-dependencies
+  sed -i "/^gem/i ENV['PAGER'] = 'more'" /usr/bin/pry
+  cp $(dirname $0)/pryrc /root/.pryrc
+fi
+
+hash -r
+$(basename $0) $@
