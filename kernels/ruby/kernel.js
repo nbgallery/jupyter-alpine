@@ -1,15 +1,52 @@
-// Ruby kernel.js
+define([
+  'base/js/namespace', 
+  'base/js/dialog', 
+  'services/config',
+  'base/js/utils'
+], function(
+  Jupyter, 
+  dialog, 
+  config,
+  utils
+) {
+  "use strict";    
 
-define(['base/js/namespace'], function(IPython) {
-    "use strict";
-    var onload = function() {
-	IPython.CodeCell.options_default['cm_config']['indentUnit'] = 2;
-	var cells = IPython.notebook.get_cells();
-        for (var i in cells){
-            var c = cells[i];
-            if (c.cell_type === 'code')
-                c.code_mirror.setOption('indentUnit', 2);
-        }
+  var kernels = new config.ConfigSection('kernels', {
+    base_url: utils.get_body_data("baseUrl")
+  }); 
+
+  kernels.loaded.then(function() {
+    if (kernels.data['ruby'] != 'installed') {
+      dialog.modal({
+        sanitize: false,
+        title: 'Installing Ruby ...',
+        body: '<br>\
+               <div class="progress"> \
+                 <div class="progress-bar progress-bar-striped active" role="progressbar" style="width: 100%"> \
+                 </div> \
+               </div>'
+      });
+
+      $([Jupyter.events]).on('kernel_ready.Kernel', function() {
+        $('.modal').modal('hide');
+        kernels.update({ruby: 'installed'});
+      });
     }
-    return {onload:onload};
+  });
+
+  kernels.load();
+
+  // original Ruby kernel.js
+  var onload = function() {
+    Jupyter.CodeCell.options_default['cm_config']['indentUnit'] = 2;
+    var cells = Jupyter.notebook.get_cells();
+    for (var i in cells) {
+      var c = cells[i];
+      if (c.cell_type === 'code') {
+        c.code_mirror.setOption('indentUnit', 2);
+      }
+    }
+  }
+  
+  return {onload:onload};
 });

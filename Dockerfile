@@ -1,16 +1,15 @@
 FROM alpine
-MAINTAINER https://github.com/jupyter-gallery
-
+MAINTAINER team@jupyter.gallery
 
 ############################################
 # Set up OS
 ############################################
+
 EXPOSE 80
 WORKDIR /root
 
-ENV \
-  CPPFLAGS=-s \
-  SHELL=/bin/bash
+ENV CPPFLAGS=-s
+ENV SHELL=/bin/bash
 
 ENTRYPOINT ["/sbin/tini", "--"]
 CMD ["jupyter", "notebook"]
@@ -18,16 +17,9 @@ CMD ["jupyter", "notebook"]
 COPY util/* /usr/local/bin/
 COPY config/bashrc /root/.bashrc
 COPY patches /root/.patches
+COPY config/repositories /etc/apk/repositories
+
 RUN \
-  echo "http://dl-3.alpinelinux.org/alpine/edge/main/" >> /etc/apk/repositories && \
-  echo "http://dl-3.alpinelinux.org/alpine/edge/testing/" >> /etc/apk/repositories && \
-  echo "http://dl-3.alpinelinux.org/alpine/edge/community/" >> /etc/apk/repositories && \
-  echo "http://dl-4.alpinelinux.org/alpine/edge/main/" >> /etc/apk/repositories && \
-  echo "http://dl-4.alpinelinux.org/alpine/edge/testing/" >> /etc/apk/repositories && \
-  echo "http://dl-4.alpinelinux.org/alpine/edge/community/" >> /etc/apk/repositories && \
-  echo "http://nl.alpinelinux.org/alpine/edge/main/" >> /etc/apk/repositories && \
-  echo "http://nl.alpinelinux.org/alpine/edge/testing/" >> /etc/apk/repositories && \
-  echo "http://nl.alpinelinux.org/alpine/edge/community/" >> /etc/apk/repositories && \
   min-apk \
     bash \
     bzip2 \
@@ -59,9 +51,9 @@ RUN \
 ############################################
 # Install Python2 & Jupyter
 ############################################
+
 COPY config/jupyter /root/.jupyter/
-#COPY config/pip.conf /etc/pip.conf # if desired
-#COPY *.ipynb /root/ # if desired
+
 RUN \
   min-apk python python-dev py-pip && \
   min-pip notebook ipywidgets && \
@@ -69,4 +61,15 @@ RUN \
   patch -p0 < /root/.patches/websocket_keepalive && \
   clean-py-files /usr/lib/python2*
 
+############################################
+# Add dynamic kernels
+############################################
 
+ADD kernels /usr/share/jupyter/kernels/
+ENV PATH=$PATH:/usr/share/jupyter/kernels/installers
+
+############################################
+# Add dynamic kernels
+############################################
+
+ENV JUPYTER_VERSION=4.0.0
