@@ -18,6 +18,7 @@ COPY util/* /usr/local/bin/
 COPY config/bashrc /root/.bashrc
 COPY patches /root/.patches
 COPY config/repositories /etc/apk/repositories
+COPY config/team@jupyter.gallery-576b3ab3.rsa.pub /etc/apk/keys/
 
 RUN \
   min-apk \
@@ -47,7 +48,6 @@ RUN \
   rm /usr/bin/gprof && \
   rm /usr/bin/*gcj
 
-
 ############################################
 # Install Python2 & Jupyter
 ############################################
@@ -56,7 +56,7 @@ COPY config/jupyter /root/.jupyter/
 
 RUN \
   min-apk python python-dev py-pip && \
-  min-pip notebook ipywidgets && \
+  min-pip jupyter ipywidgets && \
   cd / && \
   patch -p0 < /root/.patches/websocket_keepalive && \
   clean-py-files /usr/lib/python2*

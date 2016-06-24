@@ -1,11 +1,4 @@
-http://dl-cdn.alpinelinux.org/alpine/v3.3/main
-http://dl-cdn.alpinelinux.org/alpine/v3.3/community
-http://dl-3.alpinelinux.org/alpine/edge/main/
-http://dl-3.alpinelinux.org/alpine/edge/testing/
-http://dl-3.alpinelinux.org/alpine/edge/community/
-http://dl-4.alpinelinux.org/alpine/edge/main/
-http://dl-4.alpinelinux.org/alpine/edge/testing/
-http://dl-4.alpinelinux.org/alpine/edge/community/
-http://nl.alpinelinux.org/alpine/edge/main/
-http://nl.alpinelinux.org/alpine/edge/testing/
-http://nl.alpinelinux.org/alpine/edge/community/
+http://dl-cdn.alpinelinux.org/alpine/edge/main
+http://dl-cdn.alpinelinux.org/alpine/edge/community
+http://dl-cdn.alpinelinux.org/alpine/edge/testing
+http://jupyter-gallery.github.io/packages/alpine-testing
