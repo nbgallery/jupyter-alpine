@@ -56,10 +56,11 @@ COPY config/jupyter /root/.jupyter/
 
 RUN \
   min-apk python python-dev py-pip && \
+  clean-py-files /usr/lib/python2* && \
   min-pip jupyter ipywidgets && \
+  jupyter nbextension enable --py --sys-prefix widgetsnbextension && \
   cd / && \
-  patch -p0 < /root/.patches/websocket_keepalive && \
-  clean-py-files /usr/lib/python2*
+  patch -p0 < /root/.patches/websocket_keepalive
 
 ############################################
 # Add dynamic kernels
