@@ -1,0 +1,9 @@
+#!/bin/bash -e
+
+if [ "$(which `basename $0`)" = "$0" ]; then
+  echo "Installing ipython3 ..."
+  min-apk jg-ipython3
+fi
+
+hash -r
+$(basename $0) $@
