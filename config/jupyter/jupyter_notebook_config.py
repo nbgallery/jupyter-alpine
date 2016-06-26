@@ -3,7 +3,6 @@ sys.path.append('/root/.jupyter/extensions/')
 
 c.JupyterApp.ip = '*'
 c.JupyterApp.port = 80
-c.JupyterApp.base_url = '/Jupyter/'
 c.JupyterApp.open_browser = False
 c.JupyterApp.allow_credentials = True
 #c.JupyterApp.server_extensions = ['status', 'post']
