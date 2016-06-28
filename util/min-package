@@ -2,7 +2,7 @@
 
 mkdir -p min-package
 cd min-package
-curl $1 > package.tar.gz
+curl -L $1 > package.tar.gz
 tar -xzf package.tar.gz
 rm package.tar.gz
 
