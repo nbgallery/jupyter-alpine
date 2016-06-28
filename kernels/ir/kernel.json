@@ -1,0 +1,5 @@
+{
+  "argv": ["R", "--slave", "-e", "IRkernel::main()", "--args", "{connection_file}"],
+  "display_name": "R",
+  "language": "R"
+}

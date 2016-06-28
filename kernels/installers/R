@@ -1,0 +1,9 @@
+#!/bin/bash -e
+
+if [ "$(which `basename $0`)" = "$0" ]; then
+  echo "Installing IRkernel ..."
+  min-apk jg-IRkernel
+fi
+
+hash -r
+$(basename $0) $@

@@ -30,11 +30,12 @@ RUN \
     g++ \
     make \
     openssh-client \
+    openssl \
     patch \
     readline-dev \
     tar \
     tini && \
-  min-package http://download.zeromq.org/zeromq-4.0.4.tar.gz && \
+  min-package https://archive.org/download/zeromq_4.0.4/zeromq-4.0.4.tar.gz && \
   rm /usr/local/share/man/*/zmq* && \
   rm -rf /usr/include/c++/*/java && \
   rm -rf /usr/include/c++/*/javax && \
@@ -47,6 +48,14 @@ RUN \
   rm /usr/bin/gcov* && \
   rm /usr/bin/gprof && \
   rm /usr/bin/*gcj
+
+############################################
+# Alias libzmq.so.3 to libzmq.so.4
+# Not sure why 0mq 3 installs with a .3 
+# extension ...
+############################################
+
+RUN ln -s /usr/local/lib/libzmq.so.3 /usr/local/lib/libzmq.so.4
 
 ############################################
 # Install Python2 & Jupyter
@@ -70,7 +79,9 @@ ADD kernels /usr/share/jupyter/kernels/
 ENV PATH=$PATH:/usr/share/jupyter/kernels/installers
 
 ############################################
-# Add dynamic kernels
+# Add Bash kernel
 ############################################
+
+RUN min-pip bash_kernel; python -m bash_kernel.install
 
 ENV JUPYTER_VERSION=4.0.0
