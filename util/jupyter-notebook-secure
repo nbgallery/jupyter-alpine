@@ -1,0 +1,30 @@
+#!/bin/bash
+
+mkdir -p /etc/pki/tls/certs/
+
+if [ ! -f /etc/pki/tls/certs/server.pem ]; then
+	echo "Generating certificates ..."
+	openssl req \
+		-nodes \
+		-x509 \
+		-days 3650 \
+		-newkey rsa \
+		-keyout /etc/pki/tls/certs/server.key \
+		-out /etc/pki/tls/certs/server.pem \
+		-subj "/C=US/ST=CO/L=Denver/O=Jupyter Gallery/CN=The Jupyter Gallery Team/emailAddress=team@jupyter.gallery" 
+fi
+
+jupyter notebook \
+	--certfile=/etc/pki/tls/certs/server.pem \
+	--keyfile=/etc/pki/tls/certs/server.key \
+	--JupyterApp.port=443 \
+	--JupyterApp.password=$(python -c "
+import sys
+import random
+import base64
+import struct
+from notebook.auth import passwd
+password=base64.b64encode(struct.pack('Q',random.SystemRandom().getrandbits(64)),'7q')[:-1]
+print>>sys.stderr,'Your notebook password is', password
+sys.stdout.write(passwd(password))
+")
