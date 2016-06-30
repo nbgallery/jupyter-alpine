@@ -28,6 +28,7 @@ RUN \
     file \
     gcc \
     g++ \
+    git \
     make \
     openssh-client \
     openssl \
