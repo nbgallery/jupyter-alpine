@@ -1,0 +1,9 @@
+#!/bin/bash -e
+
+if [ "$(which `basename $0`)" = "$0" ]; then
+  echo "Installing cling ..."
+  min-apk jg-cling
+fi
+
+hash -r
+$(basename $0) $@
