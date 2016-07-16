@@ -67,6 +67,7 @@ COPY config/jupyter /root/.jupyter/
 RUN \
   min-apk python python-dev py-pip && \
   clean-py-files /usr/lib/python2* && \
+  pip install --no-cache-dir --upgrade setuptools && \
   min-pip jupyter ipywidgets && \
   jupyter nbextension enable --py --sys-prefix widgetsnbextension && \
   cd / && \
