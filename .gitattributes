@@ -1,0 +1,6 @@
+# Set files to end in LF by default to prevent errors on Windows
+# caused by copying files with CRLF into the Docker image
+* text eol=lf
+
+# Denote files that are truly binary
+*.png binary
