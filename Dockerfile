@@ -65,7 +65,7 @@ RUN ln -s /usr/local/lib/libzmq.so.3 /usr/local/lib/libzmq.so.4
 COPY config/jupyter /root/.jupyter/
 
 RUN \
-  min-apk python python-dev py-pip py2-openssl py2-cryptography && \
+  min-apk python python-dev py-pip py2-openssl py2-cryptography libffi-dev && \
   clean-py-files /usr/lib/python2* && \
   pip install --no-cache-dir --upgrade setuptools && \
   min-pip jupyter ipywidgets && \
