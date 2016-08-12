@@ -69,6 +69,7 @@ RUN \
   clean-py-files /usr/lib/python2* && \
   pip install --no-cache-dir --upgrade setuptools && \
   min-pip jupyter ipywidgets && \
+  rm /usr/bin/ipython3 && \
   jupyter nbextension enable --py --sys-prefix widgetsnbextension && \
   cd / && \
   patch -p0 < /root/.patches/websocket_keepalive
