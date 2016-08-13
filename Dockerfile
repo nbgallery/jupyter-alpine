@@ -72,6 +72,7 @@ RUN \
   rm /usr/bin/ipython3 && \
   jupyter nbextension enable --py --sys-prefix widgetsnbextension && \
   cd / && \
+  patch -p0 < /root/.patches/ipywidget_notification_area && \
   patch -p0 < /root/.patches/websocket_keepalive
 
 ############################################
