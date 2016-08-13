@@ -76,6 +76,13 @@ RUN \
   patch -p0 < /root/.patches/websocket_keepalive
 
 ############################################
+# Install ipydeps
+############################################
+
+RUN pip install http://github.com/jupyter-gallery/pypki2/tarball/master#egg=package-1.0	
+RUN pip install http://github.com/jupyter-gallery/ipydeps/tarball/master#egg=package-1.0
+	
+############################################
 # Add dynamic kernels
 ############################################
 
