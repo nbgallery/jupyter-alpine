@@ -1,0 +1,12 @@
+--- /usr/lib/python2.7/site-packages/ipykernel/kernelapp.py.orig
++++ /usr/lib/python2.7/site-packages/ipykernel/kernelapp.py
+@@ -370,7 +370,8 @@
+         self.kernel = kernel
+ 
+         # Allow the displayhook to get the execution count
+-        self.displayhook.get_execution_count = lambda: kernel.execution_count
++        if hasattr(self, 'displayhook'):
++            self.displayhook.get_execution_count = lambda: kernel.execution_count
+ 
+     def init_gui_pylab(self):
+         """Enable GUI event loop integration, taking pylab into account."""

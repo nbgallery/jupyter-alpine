@@ -73,6 +73,7 @@ RUN \
   jupyter nbextension enable --py --sys-prefix widgetsnbextension && \
   cd / && \
   patch -p0 < /root/.patches/ipywidget_notification_area && \
+  patch -p0 < /root/.patches/ipykernel_displayhook && \
   patch -p0 < /root/.patches/websocket_keepalive
 
 ############################################
