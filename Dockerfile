@@ -37,6 +37,7 @@ RUN \
     tar \
     tini && \
   min-package https://archive.org/download/zeromq_4.0.4/zeromq-4.0.4.tar.gz && \
+  if [ ! -f /usr/include/xlocale.h ]; then echo '#include <locale.h>' > /usr/include/xlocale.h; fi && \
   rm /usr/local/share/man/*/zmq* && \
   rm -rf /usr/include/c++/*/java && \
   rm -rf /usr/include/c++/*/javax && \
