@@ -2,7 +2,7 @@
 
 if [ "$(which `basename $0`)" = "$0" ]; then
   echo "Installing cling ..."
-  min-apk jg-cling
+  min-apk gallery-cpp-kernel
 fi
 
 hash -r

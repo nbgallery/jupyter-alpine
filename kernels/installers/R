@@ -2,7 +2,7 @@
 
 if [ "$(which `basename $0`)" = "$0" ]; then
   echo "Installing IRkernel ..."
-  min-apk jg-IRkernel
+  min-apk gallery-R-kernel
 fi
 
 hash -r

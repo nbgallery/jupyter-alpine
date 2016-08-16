@@ -2,7 +2,7 @@
 
 if [ "$(which `basename $0`)" = "$0" ]; then
   echo "Installing iruby ..."
-  min-apk jg-iruby
+  min-apk gallery-ruby-kernel
 fi
 
 hash -r
