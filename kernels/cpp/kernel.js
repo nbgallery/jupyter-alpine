@@ -16,10 +16,10 @@ define([
   }); 
 
   kernels.loaded.then(function() {
-    if (kernels.data['cling'] != 'installed') {
+    if (kernels.data['cpp'] != 'installed') {
       dialog.modal({
         sanitize: false,
-        title: 'Installing Cling ...',
+        title: 'Installing Cling C++ kernel...',
         body: '<br>\
                <div class="progress"> \
                  <div class="progress-bar progress-bar-striped active" role="progressbar" style="width: 100%"> \
@@ -29,7 +29,7 @@ define([
 
       $([Jupyter.events]).on('kernel_ready.Kernel', function() {
         $('.modal').modal('hide');
-        kernels.update({cling: 'installed'});
+        kernels.update({cpp: 'installed'});
       });
     }
   });
