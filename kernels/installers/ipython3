@@ -4,6 +4,9 @@ if [ "$(which `basename $0`)" = "$0" ]; then
   echo "Installing ipython3 ..."
   min-apk gallery-python3-kernel
 
+  # Ensure user site-packages directory exists for sys.path 
+  mkdir -p `python3 -m site --user-site`
+
   # TODO: temporary patch until fixed upstream https://github.com/ipython/ipywidgets/pull/713
   sed -i 's/new_notification_widget/widget/' /usr/share/jupyter/nbextensions/jupyter-js-widgets/extension.js
 fi

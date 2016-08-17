@@ -69,6 +69,7 @@ RUN \
   min-apk python python-dev py-pip py2-openssl py2-cryptography libffi-dev py-cffi py-enum34 && \
   clean-py-files /usr/lib/python2* && \
   pip install --no-cache-dir --upgrade setuptools && \
+  mkdir -p `python -m site --user-site` && \
   min-pip jupyter ipywidgets && \
   jupyter nbextension enable --py --sys-prefix widgetsnbextension && \
   cd / && \
