@@ -83,6 +83,9 @@ RUN \
 
 RUN pip install http://github.com/jupyter-gallery/pypki2/tarball/master#egg=package-1.0	
 RUN pip install http://github.com/jupyter-gallery/ipydeps/tarball/master#egg=package-1.0
+
+# TODO: workaround for https://github.com/nbgallery/ipydeps/issues/7
+RUN sed -i 's/packages = list(set(packages)/#packages = list(set(packages)/' /usr/lib/python2*/site-packages/ipydeps/__init__.py
 	
 ############################################
 # Add dynamic kernels
