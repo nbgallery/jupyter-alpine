@@ -1,2 +1,2 @@
 alias ll='ls -l'
-alias apksizes='for i in `apk info | grep -v WARNING`; do SIZE=`apk info $i | grep -A1 size | tail -n1`; echo $i $((SIZE/1024/1024)); done | sort -n -k2'
+alias apksize='for i in `apk info | grep -v WARNING`; do size=`apk info -v $i | tail -n 1 | cut -d" " -f2`; printf "%9s %s\n" $size $i; done | sort -n'

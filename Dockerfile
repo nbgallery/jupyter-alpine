@@ -1,5 +1,5 @@
 FROM alpine
-MAINTAINER team@jupyter.gallery
+MAINTAINER team@nb.gallery
 
 ############################################
 # Set up OS
@@ -36,6 +36,7 @@ RUN \
     readline-dev \
     tar \
     tini && \
+  clean-terminfo && \
   min-package https://archive.org/download/zeromq_4.0.4/zeromq-4.0.4.tar.gz && \
   if [ ! -f /usr/include/xlocale.h ]; then echo '#include <locale.h>' > /usr/include/xlocale.h; fi && \
   rm /usr/local/share/man/*/zmq* && \
@@ -67,10 +68,11 @@ COPY config/jupyter /root/.jupyter/
 
 RUN \
   min-apk python python-dev py-pip py2-openssl py2-cryptography libffi-dev py-cffi py-enum34 && \
-  clean-py-files /usr/lib/python2* && \
+  rm -rf /usr/lib/python2*/*/tests && \
   pip install --no-cache-dir --upgrade setuptools && \
   mkdir -p `python -m site --user-site` && \
   min-pip jupyter ipywidgets && \
+  clean-pyc-files /usr/lib/python2* && \
   jupyter nbextension enable --py --sys-prefix widgetsnbextension && \
   cd / && \
   patch -p0 < /root/.patches/ipywidget_notification_area && \
@@ -81,11 +83,11 @@ RUN \
 # Install ipydeps
 ############################################
 
-RUN pip install http://github.com/jupyter-gallery/pypki2/tarball/master#egg=package-1.0	
-RUN pip install http://github.com/jupyter-gallery/ipydeps/tarball/master#egg=package-1.0
-
-# TODO: workaround for https://github.com/nbgallery/ipydeps/issues/7
-RUN sed -i 's/packages = list(set(packages)/#packages = list(set(packages)/' /usr/lib/python2*/site-packages/ipydeps/__init__.py
+RUN \
+  pip install http://github.com/jupyter-gallery/pypki2/tarball/master#egg=package-1.0 && \
+  pip install http://github.com/jupyter-gallery/ipydeps/tarball/master#egg=package-1.0 && \
+  echo TODO: applying workaround for https://github.com/nbgallery/ipydeps/issues/7 && \
+  sed -i 's/packages = list(set(packages)/#packages = list(set(packages)/' /usr/lib/python2*/site-packages/ipydeps/__init__.py
 	
 ############################################
 # Add dynamic kernels
@@ -98,6 +100,9 @@ ENV PATH=$PATH:/usr/share/jupyter/kernels/installers
 # Add Bash kernel
 ############################################
 
-RUN min-pip bash_kernel; python -m bash_kernel.install
+RUN \
+  min-pip bash_kernel && \
+  python -m bash_kernel.install && \
+  clean-pyc-files /usr/lib/python2*
 
 ENV JUPYTER_VERSION=4.0.0
