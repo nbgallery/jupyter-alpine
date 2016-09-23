@@ -11,7 +11,7 @@ if [ ! -f /etc/pki/tls/certs/server.pem ]; then
 		-newkey rsa \
 		-keyout /etc/pki/tls/certs/server.key \
 		-out /etc/pki/tls/certs/server.pem \
-		-subj "/C=US/ST=CO/L=Denver/O=Jupyter Gallery/CN=The Jupyter Gallery Team/emailAddress=team@jupyter.gallery" 
+		-subj "/C=US/ST=CO/L=Denver/O=nbgallery/CN=nbgallery team/emailAddress=team@nb.gallery" 
 fi
 
 jupyter notebook \

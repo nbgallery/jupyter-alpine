@@ -84,8 +84,8 @@ RUN \
 ############################################
 
 RUN \
-  pip install http://github.com/jupyter-gallery/pypki2/tarball/master#egg=package-1.0 && \
-  pip install http://github.com/jupyter-gallery/ipydeps/tarball/master#egg=package-1.0 && \
+  pip install http://github.com/nbgallery/pypki2/tarball/master#egg=package-1.0 && \
+  pip install http://github.com/nbgallery/ipydeps/tarball/master#egg=package-1.0 && \
   echo TODO: applying workaround for https://github.com/nbgallery/ipydeps/issues/7 && \
   sed -i 's/packages = list(set(packages)/#packages = list(set(packages)/' /usr/lib/python2*/site-packages/ipydeps/__init__.py
 	
