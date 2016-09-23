@@ -1,5 +1,5 @@
 #!/bin/bash -e
 
 gem install -N $@ 
-rm /usr/lib/ruby/gems/2.2.0/cache/*
+rm /usr/lib/ruby/gems/*/cache/*
 
