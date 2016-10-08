@@ -1,0 +1,17 @@
+{
+  "language": "r", 
+  "display_name": "Spark - SparkR", 
+  "env": {
+    "__TOREE_SPARK_OPTS__": "", 
+    "SPARK_HOME": "/usr/spark", 
+    "__TOREE_OPTS__": "", 
+    "DEFAULT_INTERPRETER": "SparkR", 
+    "PYTHONPATH": "/usr/spark/python:/usr/spark/python/lib/py4j-0.9-src.zip", 
+    "PYTHON_EXEC": "python"
+  }, 
+  "argv": [
+    "/usr/local/share/jupyter/kernels/spark_sparkr/bin/run.sh", 
+    "--profile", 
+    "{connection_file}"
+  ]
+}

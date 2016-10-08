@@ -1,7 +1,7 @@
 FROM alpine
 MAINTAINER team@nb.gallery
 
-LABEL version="4.0.1" \
+LABEL version="4.1.0" \
       description="Minimal alpine-based Jupyter notebook server" \
       URL="https://github.com/nbgallery"
 
@@ -97,7 +97,10 @@ RUN \
 ########################################################################
 
 ADD kernels /usr/share/jupyter/kernels/
-ENV PATH=$PATH:/usr/share/jupyter/kernels/installers
+ADD spark_kernels /usr/local/share/jupyter/kernels/
+ENV JAVA_HOME=/usr/lib/jvm/default-jvm \
+    SPARK_HOME=/usr/spark
+ENV PATH=$PATH:$JAVA_HOME/bin:$SPARK_HOME/bin:/usr/share/jupyter/kernels/installers
 
 ########################################################################
 # Add Bash kernel
