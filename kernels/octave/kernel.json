@@ -1,0 +1,1 @@
+{"argv": ["octave_kernel", "-f", "{connection_file}"], "display_name": "Octave", "language": "octave", "mimetype": "text/x-octave", "name": "octave"}

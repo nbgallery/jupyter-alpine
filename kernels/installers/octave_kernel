@@ -1,0 +1,18 @@
+#!/bin/bash -e
+
+if [ "$(which `basename $0`)" = "$0" ]; then
+  echo "Installing Octave kernel ..."
+  min-apk octave
+  # TODO: wrap the following in an apk (?)
+  pip install octave_kernel
+  echo $'#!/bin/sh\nexec /usr/bin/python -m octave_kernel $@' > /usr/bin/octave_kernel
+  chmod +x /usr/bin/octave_kernel
+fi
+
+hash -r
+if [ "$(which `basename $0`)" = "$0" ]; then
+  echo "Installation failed!"
+  exit
+fi
+
+$(basename $0) $@
