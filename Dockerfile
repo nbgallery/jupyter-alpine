@@ -1,7 +1,7 @@
 FROM alpine
 MAINTAINER team@nb.gallery
 
-LABEL version="4.2.0" \
+LABEL version="4.2.1" \
       description="Minimal alpine-based Jupyter notebook server" \
       URL="https://github.com/nbgallery"
 
@@ -87,8 +87,8 @@ RUN \
 ########################################################################
 
 RUN \
-  pip install http://github.com/nbgallery/pypki2/tarball/master#egg=package-1.0 && \
-  pip install http://github.com/nbgallery/ipydeps/tarball/master#egg=package-1.0 && \
+  pip install http://github.com/nbgallery/pypki2/tarball/master#egg=pypki2 && \
+  pip install http://github.com/nbgallery/ipydeps/tarball/master#egg=ipydeps && \
   echo TODO: applying workaround for https://github.com/nbgallery/ipydeps/issues/7 && \
   sed -i 's/packages = list(set(packages)/#packages = list(set(packages)/' /usr/lib/python2*/site-packages/ipydeps/__init__.py
 	
@@ -97,7 +97,6 @@ RUN \
 ########################################################################
 
 ADD kernels /usr/share/jupyter/kernels/
-ADD spark_kernels /usr/local/share/jupyter/kernels/
 ENV JAVA_HOME=/usr/lib/jvm/default-jvm \
     SPARK_HOME=/usr/spark
 ENV PATH=$PATH:$JAVA_HOME/bin:$SPARK_HOME/bin:/usr/share/jupyter/kernels/installers
