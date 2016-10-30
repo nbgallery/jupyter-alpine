@@ -1,7 +1,7 @@
 FROM alpine
 MAINTAINER team@nb.gallery
 
-LABEL gallery.nb.version="4.2.2" \
+LABEL gallery.nb.version="4.3.0" \
       gallery.nb.description="Minimal alpine-based Jupyter notebook server" \
       gallery.nb.URL="https://github.com/nbgallery"
 
