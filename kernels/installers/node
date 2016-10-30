@@ -1,0 +1,15 @@
+#!/bin/bash -e
+
+if [ "$(which `basename $0`)" = "$0" ]; then
+  echo "Installing Node.js ..."
+  min-apk nodejs
+  npm install -g ijavascript
+fi
+
+hash -r
+if [ "$(which `basename $0`)" = "$0" ]; then
+  echo "Installation failed!"
+  exit
+fi
+
+$(basename $0) $@
