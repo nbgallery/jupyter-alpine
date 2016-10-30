@@ -1,9 +1,9 @@
 FROM alpine
 MAINTAINER team@nb.gallery
 
-LABEL version="4.2.1" \
-      description="Minimal alpine-based Jupyter notebook server" \
-      URL="https://github.com/nbgallery"
+LABEL gallery.nb.version="4.2.2" \
+      gallery.nb.description="Minimal alpine-based Jupyter notebook server" \
+      gallery.nb.URL="https://github.com/nbgallery"
 
 ########################################################################
 # Set up OS
