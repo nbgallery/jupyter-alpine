@@ -1,10 +1,6 @@
 FROM alpine
 MAINTAINER team@nb.gallery
 
-LABEL gallery.nb.version="4.3.1" \
-      gallery.nb.description="Minimal alpine-based Jupyter notebook server" \
-      gallery.nb.URL="https://github.com/nbgallery"
-
 ########################################################################
 # Set up OS
 ########################################################################
@@ -33,9 +29,9 @@ RUN \
     gcc \
     g++ \
     git \
+    libressl \
     make \
     openssh-client \
-    openssl \
     patch \
     readline-dev \
     tar \
@@ -109,3 +105,11 @@ RUN \
   min-pip bash_kernel && \
   python -m bash_kernel.install && \
   clean-pyc-files /usr/lib/python2*
+
+########################################################################
+# Metadata
+########################################################################
+
+LABEL gallery.nb.version="4.3.2" \
+      gallery.nb.description="Minimal alpine-based Jupyter notebook server" \
+      gallery.nb.URL="https://github.com/nbgallery"
