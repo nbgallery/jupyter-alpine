@@ -68,7 +68,7 @@ COPY config/jupyter /root/.jupyter/
 RUN \
   min-apk python python-dev py2-pip py2-openssl py2-cryptography libffi-dev py-cffi py-enum34 && \
   rm -rf /usr/lib/python2*/*/tests && \
-  pip install --no-cache-dir --upgrade setuptools && \
+  pip install --no-cache-dir --upgrade setuptools pip && \
   mkdir -p `python -m site --user-site` && \
   min-pip jupyter ipywidgets && \
   clean-pyc-files /usr/lib/python2* && \
