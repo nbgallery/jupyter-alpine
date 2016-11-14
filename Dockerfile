@@ -37,6 +37,7 @@ RUN \
     tar \
     tini && \
   clean-terminfo && \
+  rm /bin/bashbug && \
   min-package https://archive.org/download/zeromq_4.0.4/zeromq-4.0.4.tar.gz && \
   if [ ! -f /usr/include/xlocale.h ]; then echo '#include <locale.h>' > /usr/include/xlocale.h; fi && \
   rm /usr/local/share/man/*/zmq* && \
@@ -66,11 +67,28 @@ RUN ln -s /usr/local/lib/libzmq.so.3 /usr/local/lib/libzmq.so.4
 COPY config/jupyter /root/.jupyter/
 
 RUN \
-  min-apk python python-dev py2-pip py2-openssl py2-cryptography libffi-dev py-cffi py-enum34 && \
+  min-apk \
+    libffi-dev \
+    py-pygments \
+    py2-cffi \
+    py2-cryptography \
+    py2-decorator \
+    py2-enum34 \
+    py2-jinja2 \
+    py2-openssl \
+    py2-pexpect \
+    py2-pip \
+    py2-tornado \
+    python \
+    python-dev && \
   rm -rf /usr/lib/python2*/*/tests && \
+  rm -rf /usr/lib/python2*/ensurepip && \
+  rm -rf /usr/lib/python2*/idlelib && \
+  rm /usr/lib/python2*/distutils/command/*exe && \
   pip install --no-cache-dir --upgrade setuptools pip && \
   mkdir -p `python -m site --user-site` && \
   min-pip jupyter ipywidgets && \
+  rm -rf /usr/share/man/* && \
   clean-pyc-files /usr/lib/python2* && \
   jupyter nbextension enable --py --sys-prefix widgetsnbextension && \
   cd / && \
