@@ -3,6 +3,8 @@
 if [ "$(which `basename $0`)" = "$0" ]; then
   echo "Installing pig ..."
   min-apk gallery-pig-kernel
+  echo $'#!/bin/sh\nexec /usr/bin/python -m PigKernel.kernel $@' > /usr/bin/pig_kernel
+  chmod +x /usr/bin/pig_kernel
 fi
 
 hash -r

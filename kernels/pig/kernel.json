@@ -1,8 +1,6 @@
 {
     "argv":[
-        "python",
-        "-m",
-        "PigKernel.kernel",
+        "pig_kernel",
         "-f",
         "{connection_file}"
     ],
