@@ -69,7 +69,7 @@ COPY config/jupyter /root/.jupyter/
 RUN \
   min-apk \
     libffi-dev \
-    py-pygments \
+    py2-pygments \
     py2-cffi \
     py2-cryptography \
     py2-decorator \
@@ -128,6 +128,6 @@ RUN \
 # Metadata
 ########################################################################
 
-LABEL gallery.nb.version="4.3.2" \
+LABEL gallery.nb.version="4.4.0" \
       gallery.nb.description="Minimal alpine-based Jupyter notebook server" \
       gallery.nb.URL="https://github.com/nbgallery"

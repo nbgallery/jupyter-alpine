@@ -1,2 +1,7 @@
 **/*~
 /share
+/.git
+.gitattributes
+.gitignore
+README.md
+LICENSE
