@@ -8,8 +8,8 @@
     "language": "pig",
     "env": {
         "JAVA_HOME": "/usr/lib/jvm/java-1.8-openjdk",
-        "PIG_HOME": "/usr/pig-0.16.0",
-        "HADOOP_HOME": "/usr/hadoop-2.6.5",
+        "PIG_HOME": "/usr/pig",
+        "HADOOP_HOME": "/usr/hadoop",
         "LOG4J_CONF_FILE": "/usr/lib/python2.7/site-packages/pig-log4j.properties"
     }
 }
