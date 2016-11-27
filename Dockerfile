@@ -36,10 +36,15 @@ RUN \
     readline-dev \
     tar \
     tini && \
+  echo "### Install specific version of zeromq from source" && \
+  min-package https://archive.org/download/zeromq_4.0.4/zeromq-4.0.4.tar.gz && \
+  ln -s /usr/local/lib/libzmq.so.3 /usr/local/lib/libzmq.so.4 && \
+  strip --strip-unneeded --strip-debug /usr/local/bin/curve_keygen && \
+  echo "### Alpine compatibility patch for various packages" && \
+  if [ ! -f /usr/include/xlocale.h ]; then echo '#include <locale.h>' > /usr/include/xlocale.h; fi && \
+  echo "### Cleanup unneeded files" && \
   clean-terminfo && \
   rm /bin/bashbug && \
-  min-package https://archive.org/download/zeromq_4.0.4/zeromq-4.0.4.tar.gz && \
-  if [ ! -f /usr/include/xlocale.h ]; then echo '#include <locale.h>' > /usr/include/xlocale.h; fi && \
   rm /usr/local/share/man/*/zmq* && \
   rm -rf /usr/include/c++/*/java && \
   rm -rf /usr/include/c++/*/javax && \
@@ -53,12 +58,6 @@ RUN \
   rm /usr/bin/gprof && \
   rm /usr/bin/*gcj
 
-########################################################################
-# Alias libzmq.so.3 to libzmq.so.4
-# Not sure why 0mq 3 installs with a .3 extension ...
-########################################################################
-
-RUN ln -s /usr/local/lib/libzmq.so.3 /usr/local/lib/libzmq.so.4
 
 ########################################################################
 # Install Python2 & Jupyter
@@ -81,16 +80,18 @@ RUN \
     py2-tornado \
     python \
     python-dev && \
+  pip install --no-cache-dir --upgrade setuptools pip && \
+  mkdir -p `python -m site --user-site` && \
+  min-pip jupyter ipywidgets && \
+  jupyter nbextension enable --py --sys-prefix widgetsnbextension && \
+  echo "### Cleanup unneeded files" && \
   rm -rf /usr/lib/python2*/*/tests && \
   rm -rf /usr/lib/python2*/ensurepip && \
   rm -rf /usr/lib/python2*/idlelib && \
   rm /usr/lib/python2*/distutils/command/*exe && \
-  pip install --no-cache-dir --upgrade setuptools pip && \
-  mkdir -p `python -m site --user-site` && \
-  min-pip jupyter ipywidgets && \
   rm -rf /usr/share/man/* && \
   clean-pyc-files /usr/lib/python2* && \
-  jupyter nbextension enable --py --sys-prefix widgetsnbextension && \
+  echo "### Apply patches" && \
   cd / && \
   patch -p0 < /root/.patches/ipywidget_notification_area && \
   patch -p0 < /root/.patches/ipykernel_displayhook && \
@@ -128,6 +129,6 @@ RUN \
 # Metadata
 ########################################################################
 
-LABEL gallery.nb.version="4.4.0" \
+LABEL gallery.nb.version="4.4.1" \
       gallery.nb.description="Minimal alpine-based Jupyter notebook server" \
       gallery.nb.URL="https://github.com/nbgallery"
