@@ -104,8 +104,8 @@ RUN \
 RUN \
   pip install http://github.com/nbgallery/pypki2/tarball/master#egg=pypki2 && \
   pip install http://github.com/nbgallery/ipydeps/tarball/master#egg=ipydeps && \
-  echo TODO: applying workaround for https://github.com/nbgallery/ipydeps/issues/7 && \
-  sed -i 's/packages = list(set(packages)/#packages = list(set(packages)/' /usr/lib/python2*/site-packages/ipydeps/__init__.py
+  echo "### TODO: applying workaround for https://github.com/nbgallery/ipydeps/issues/7" && \
+  sed -i 's/packages = set(packages)/#packages = set(packages)/' /usr/lib/python2*/site-packages/ipydeps/__init__.py
 	
 ########################################################################
 # Add dynamic kernels
@@ -129,6 +129,6 @@ RUN \
 # Metadata
 ########################################################################
 
-LABEL gallery.nb.version="4.4.1" \
+LABEL gallery.nb.version="4.4.2" \
       gallery.nb.description="Minimal alpine-based Jupyter notebook server" \
       gallery.nb.URL="https://github.com/nbgallery"

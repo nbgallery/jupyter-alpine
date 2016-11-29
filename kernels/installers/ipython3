@@ -8,7 +8,7 @@ if [ "$(which `basename $0`)" = "$0" ]; then
   mkdir -p `python3 -m site --user-site`
 
   # TODO: workaround for https://github.com/nbgallery/ipydeps/issues/7
-  sed -i 's/packages = list(set(packages)/#packages = list(set(packages)/' /usr/lib/python3*/site-packages/ipydeps/__init__.py
+  sed -i 's/packages = set(packages)/#packages = set(packages)/' /usr/lib/python3*/site-packages/ipydeps/__init__.py
 
   # TODO: temporary patch until fixed upstream https://github.com/ipython/ipywidgets/pull/713
   sed -i 's/new_notification_widget/widget/' /usr/share/jupyter/nbextensions/jupyter-js-widgets/extension.js
