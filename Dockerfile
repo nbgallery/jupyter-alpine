@@ -30,6 +30,7 @@ RUN \
     g++ \
     git \
     libressl \
+    libsodium-dev \
     make \
     openssh-client \
     patch \
@@ -84,6 +85,10 @@ RUN \
   mkdir -p `python -m site --user-site` && \
   min-pip jupyter ipywidgets && \
   jupyter nbextension enable --py --sys-prefix widgetsnbextension && \
+  pip install http://github.com/nbgallery/nbgallery-extensions/tarball/master#egg=jupyter_nbgallery && \
+  jupyter serverextension enable --py jupyter_nbgallery && \
+  jupyter nbextension install --py jupyter_nbgallery && \
+  jupyter nbextension enable jupyter_nbgallery --py && \
   echo "### Cleanup unneeded files" && \
   rm -rf /usr/lib/python2*/*/tests && \
   rm -rf /usr/lib/python2*/ensurepip && \
@@ -104,6 +109,7 @@ RUN \
 RUN \
   pip install http://github.com/nbgallery/pypki2/tarball/master#egg=pypki2 && \
   pip install http://github.com/nbgallery/ipydeps/tarball/master#egg=ipydeps && \
+  clean-pyc-files /usr/lib/python2* && \
   echo "### TODO: applying workaround for https://github.com/nbgallery/ipydeps/issues/7" && \
   sed -i 's/packages = set(packages)/#packages = set(packages)/' /usr/lib/python2*/site-packages/ipydeps/__init__.py
 	
@@ -129,6 +135,6 @@ RUN \
 # Metadata
 ########################################################################
 
-LABEL gallery.nb.version="4.4.2" \
+LABEL gallery.nb.version="5.0.0" \
       gallery.nb.description="Minimal alpine-based Jupyter notebook server" \
       gallery.nb.URL="https://github.com/nbgallery"
