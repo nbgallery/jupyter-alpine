@@ -17,14 +17,4 @@ fi
 jupyter notebook \
 	--certfile=/etc/pki/tls/certs/server.pem \
 	--keyfile=/etc/pki/tls/certs/server.key \
-	--JupyterApp.port=443 \
-	--JupyterApp.password=$(python -c "
-import sys
-import random
-import base64
-import struct
-from notebook.auth import passwd
-password=base64.b64encode(struct.pack('Q',random.SystemRandom().getrandbits(64)),'7q')[:-1]
-print>>sys.stderr,'Your notebook password is', password
-sys.stdout.write(passwd(password))
-")
+	--JupyterApp.port=443
