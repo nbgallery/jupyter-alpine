@@ -98,6 +98,10 @@ RUN \
   clean-pyc-files /usr/lib/python2* && \
   echo "### Apply patches" && \
   cd / && \
+  sed -i 's/_max_upload_size_mb = [0-9][0-9]/_max_upload_size_mb = 50/g' \
+    /usr/lib/python2*/site-packages/notebook/static/tree/js/notebooklist.js \
+    /usr/lib/python2*/site-packages/notebook/static/tree/js/main.min.js \
+    /usr/lib/python2*/site-packages/notebook/static/tree/js/main.min.js.map && \
   patch -p0 < /root/.patches/ipywidget_notification_area && \
   patch -p0 < /root/.patches/ipykernel_displayhook && \
   patch -p0 < /root/.patches/websocket_keepalive
