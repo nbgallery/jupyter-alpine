@@ -2,7 +2,7 @@
 
 if [ "$(which `basename $0`)" = "$0" ]; then
   echo "Installing IRkernel ..."
-  min-apk gallery-R-kernel
+  min-apk openjdk8 gallery-R-kernel
 fi
 
 hash -r
@@ -10,5 +10,7 @@ if [ "$(which `basename $0`)" = "$0" ]; then
   echo "Installation failed!"
   exit
 fi
+
+R CMD javareconf
 
 $(basename $0) $@
