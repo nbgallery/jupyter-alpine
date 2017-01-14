@@ -2,7 +2,8 @@
 
 if [ "$(which `basename $0`)" = "$0" ]; then
   echo "Installing IRkernel ..."
-  min-apk openjdk8 gallery-R-kernel
+  # IRKernel + dependencies for popular R packages
+  min-apk gallery-R-kernel openjdk8 tzdata jpeg-dev libxml2-dev
 fi
 
 hash -r
