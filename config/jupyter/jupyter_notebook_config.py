@@ -11,3 +11,6 @@ c.JupyterApp.extra_static_paths = ['/root/.jupyter/static']
 c.JupyterApp.extra_nbextensions_path = ['/root/.jupyter/extensions/']
 c.JupyterApp.tornado_settings = {'static_url_prefix': '/Jupyter/static/'}
 c.JupyterApp.allow_origin = 'https://nb.gallery'
+
+# needed to receive notebooks from the gallery
+c.JupyterApp.disable_check_xsrf = True
