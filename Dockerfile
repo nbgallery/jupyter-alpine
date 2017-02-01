@@ -12,7 +12,7 @@ ENV CPPFLAGS=-s \
     SHELL=/bin/bash
 
 ENTRYPOINT ["/sbin/tini", "--"]
-CMD ["jupyter", "notebook"]
+CMD ["jupyter-notebook-secure"]
 
 COPY util/* /usr/local/bin/
 COPY config/bashrc /root/.bashrc

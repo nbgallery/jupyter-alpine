@@ -14,7 +14,7 @@ if [ ! -f /etc/pki/tls/certs/server.pem ]; then
 		-subj "/C=US/ST=CO/L=Denver/O=nbgallery/CN=nbgallery team/emailAddress=team@nb.gallery" 
 fi
 
-jupyter notebook \
+exec jupyter notebook \
 	--certfile=/etc/pki/tls/certs/server.pem \
 	--keyfile=/etc/pki/tls/certs/server.key \
 	--JupyterApp.port=443
