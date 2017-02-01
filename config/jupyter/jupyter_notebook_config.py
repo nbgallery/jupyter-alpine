@@ -17,12 +17,25 @@ c.JupyterApp.allow_origin = 'https://nb.gallery'
 # needed to receive notebooks from the gallery
 c.JupyterApp.disable_check_xsrf = True
 
+def load_config():
+  return json.loads(open('/root/.jupyter/nbconfig/common.json').read())
+
+def save_config(config):
+  with open('/root/.jupyter/nbconfig/common.json', 'w') as output:
+    output.write(json.dumps(config, indent=2))
+
 # Override gallery location
 nbgallery_url = os.getenv('NBGALLERY_URL')
 if nbgallery_url:
   print('Setting nbgallery url to %s' % nbgallery_url)
   c.JupyterApp.allow_origin = nbgallery_url
-  config = json.loads(open('/root/.jupyter/nbconfig/common.json').read())
+  config = load_config()
   config['nbgallery']['url'] = nbgallery_url
-  with open('/root/.jupyter/nbconfig/common.json', 'w') as output:
-    output.write(json.dumps(config, indent=2))
+  save_config(config)
+
+# Override client name
+client_name = os.getenv('NBGALLERY_CLIENT_NAME')
+if client_name:
+  config = load_config()
+  config['nbgallery']['client']['name'] = client_name
+  save_config(config)
