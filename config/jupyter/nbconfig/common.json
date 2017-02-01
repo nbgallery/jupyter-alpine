@@ -1,5 +1,13 @@
 {
   "nbgallery": {
-    "url": "https://nb.gallery"
+    "url": "https://nb.gallery",
+    "client": {
+      "name": "nbgallery-client"
+    },
+    "extra_integration": {
+      "common": [],
+      "notebook": [],
+      "tree": []
+    }
   }
 }
