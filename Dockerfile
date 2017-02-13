@@ -21,6 +21,7 @@ COPY config/repositories /etc/apk/repositories
 COPY config/team@jupyter.gallery-576b3ab3.rsa.pub /etc/apk/keys/
 
 RUN \
+  min-apk -u zlib && \
   min-apk \
     bash \
     bzip2 \
@@ -143,7 +144,7 @@ RUN \
 # Metadata
 ########################################################################
 
-ENV NBGALLERY_CLIENT_VERSION=5.2.0
+ENV NBGALLERY_CLIENT_VERSION=5.2.1
 
 LABEL gallery.nb.version=$NBGALLERY_CLIENT_VERSION \
       gallery.nb.description="Minimal alpine-based Jupyter notebook server" \
