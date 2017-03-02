@@ -74,7 +74,6 @@ RUN \
     py2-cffi \
     py2-cryptography \
     py2-decorator \
-    py2-enum34 \
     py2-jinja2 \
     py2-openssl \
     py2-pexpect \
