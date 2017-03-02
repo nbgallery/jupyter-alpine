@@ -103,7 +103,6 @@ RUN \
     /usr/lib/python2*/site-packages/notebook/static/tree/js/notebooklist.js \
     /usr/lib/python2*/site-packages/notebook/static/tree/js/main.min.js \
     /usr/lib/python2*/site-packages/notebook/static/tree/js/main.min.js.map && \
-  patch -p0 < /root/.patches/ipywidget_notification_area && \
   patch -p0 < /root/.patches/ipykernel_displayhook && \
   patch -p0 < /root/.patches/websocket_keepalive && \
   patch --no-backup-if-mismatch -p0 < /root/.patches/notebook_pr2061 && \
