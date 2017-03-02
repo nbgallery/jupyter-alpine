@@ -18,7 +18,7 @@ COPY util/* /usr/local/bin/
 COPY config/bashrc /root/.bashrc
 COPY patches /root/.patches
 COPY config/repositories /etc/apk/repositories
-COPY config/team@jupyter.gallery-576b3ab3.rsa.pub /etc/apk/keys/
+COPY config/*.rsa.pub /etc/apk/keys/
 
 RUN \
   min-apk -u zlib && \
@@ -144,7 +144,7 @@ RUN \
 # Metadata
 ########################################################################
 
-ENV NBGALLERY_CLIENT_VERSION=5.2.2
+ENV NBGALLERY_CLIENT_VERSION=5.3.0
 
 LABEL gallery.nb.version=$NBGALLERY_CLIENT_VERSION \
       gallery.nb.description="Minimal alpine-based Jupyter notebook server" \
