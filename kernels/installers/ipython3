@@ -9,9 +9,6 @@ if [ "$(which `basename $0`)" = "$0" ]; then
 
   # TODO: workaround for https://github.com/nbgallery/ipydeps/issues/7
   sed -i 's/packages = set(packages)/#packages = set(packages)/' /usr/lib/python3*/site-packages/ipydeps/__init__.py
-
-  # TODO: temporary patch until fixed upstream https://github.com/ipython/ipywidgets/pull/713
-  sed -i 's/new_notification_widget/widget/' /usr/share/jupyter/nbextensions/jupyter-js-widgets/extension.js
 fi
 
 hash -r
