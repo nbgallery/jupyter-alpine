@@ -1,4 +1,4 @@
-FROM alpine
+FROM alpine:3.5
 MAINTAINER team@nb.gallery
 
 ########################################################################
@@ -142,7 +142,7 @@ RUN \
 # Metadata
 ########################################################################
 
-ENV NBGALLERY_CLIENT_VERSION=5.3.0
+ENV NBGALLERY_CLIENT_VERSION=5.5.0
 
 LABEL gallery.nb.version=$NBGALLERY_CLIENT_VERSION \
       gallery.nb.description="Minimal alpine-based Jupyter notebook server" \
