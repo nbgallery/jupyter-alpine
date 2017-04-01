@@ -11,6 +11,9 @@ if [ "$(which `basename $0`)" = "$0" ]; then
   sed -i 's/packages = set(packages)/#packages = set(packages)/' /usr/lib/python3*/site-packages/ipydeps/__init__.py
 fi
 
+  # TODO: temporary patch until fixed upstream https://github.com/ipython/ipywidgets/pull/713
+  sed -i 's/new_notification_widget/widget/' /usr/share/jupyter/nbextensions/jupyter-js-widgets/extension.js
+
 hash -r
 if [ "$(which `basename $0`)" = "$0" ]; then
   echo "Installation failed!"

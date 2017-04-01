@@ -83,14 +83,13 @@ RUN \
     python-dev && \
   pip install --no-cache-dir --upgrade setuptools pip && \
   mkdir -p `python -m site --user-site` && \
-  min-pip jupyter ipywidgets jupyterlab jupyter_dashboards && \
+  min-pip jupyter ipywidgets==5.2.2 widgetsnbextension==1.2.6 jupyterlab && \
   jupyter nbextension enable --py --sys-prefix widgetsnbextension && \
   pip install http://github.com/nbgallery/nbgallery-extensions/tarball/master#egg=jupyter_nbgallery && \
   jupyter serverextension enable --py jupyter_nbgallery && \
   jupyter nbextension install --py jupyter_nbgallery && \
   jupyter nbextension enable jupyter_nbgallery --py && \
   jupyter serverextension enable --py jupyterlab --sys-prefix && \
-  jupyter dashboards quick-setup --sys-prefix && \
   echo "### Cleanup unneeded files" && \
   rm -rf /usr/lib/python2*/*/tests && \
   rm -rf /usr/lib/python2*/ensurepip && \
@@ -104,6 +103,7 @@ RUN \
     /usr/lib/python2*/site-packages/notebook/static/tree/js/notebooklist.js \
     /usr/lib/python2*/site-packages/notebook/static/tree/js/main.min.js \
     /usr/lib/python2*/site-packages/notebook/static/tree/js/main.min.js.map && \
+  patch -p0 < /root/.patches/ipywidget_notification_area && \
   patch -p0 < /root/.patches/ipykernel_displayhook && \
   patch -p0 < /root/.patches/websocket_keepalive && \
   patch --no-backup-if-mismatch -p0 < /root/.patches/notebook_pr2061 && \
@@ -143,7 +143,7 @@ RUN \
 # Metadata
 ########################################################################
 
-ENV NBGALLERY_CLIENT_VERSION=5.5.0
+ENV NBGALLERY_CLIENT_VERSION=5.5.1
 
 LABEL gallery.nb.version=$NBGALLERY_CLIENT_VERSION \
       gallery.nb.description="Minimal alpine-based Jupyter notebook server" \
