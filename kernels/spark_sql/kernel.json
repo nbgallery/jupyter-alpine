@@ -1,17 +1,17 @@
 {
-  "language": "sql", 
-  "display_name": "Spark - SQL", 
+  "language": "sql",
+  "display_name": "Spark - SQL",
   "env": {
-    "__TOREE_SPARK_OPTS__": "", 
-    "SPARK_HOME": "/usr/spark", 
-    "__TOREE_OPTS__": "", 
-    "DEFAULT_INTERPRETER": "SQL", 
-    "PYTHONPATH": "/usr/spark/python:/usr/spark/python/lib/py4j-0.9-src.zip", 
+    "__TOREE_SPARK_OPTS__": "",
+    "SPARK_HOME": "/usr/spark",
+    "__TOREE_OPTS__": "",
+    "DEFAULT_INTERPRETER": "SQL",
+    "PYTHONPATH": "/usr/spark/python",
     "PYTHON_EXEC": "python"
-  }, 
+  },
   "argv": [
-    "/usr/share/jupyter/kernels/spark_sql/bin/run.sh", 
-    "--profile", 
+    "spark_kernel",
+    "--profile",
     "{connection_file}"
   ]
 }
