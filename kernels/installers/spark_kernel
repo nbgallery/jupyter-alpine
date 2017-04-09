@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+
+if [ -z "$SPARK_HOME" ]; then
+  echo "SPARK_HOME must be set to the location of a Spark distribution!"
+  exit 1
+fi
+
+# Needed for standalone hadoop installation
+# export SPARK_DIST_CLASSPATH=$(hadoop classpath)
+
+EXECUTABLE=/usr/lib/python2.7/site-packages/toree/bin/run.sh
+
+# Install Toree if needed
+if [ ! -e  "$EXECUTABLE" ]; then
+  min-apk gallery-toree-kernel
+fi
+if [ ! -e  "$EXECUTABLE" ]; then
+  echo "Error installing kernel apk!"
+  exit 2
+fi
+
+# Run the kernel
+exec $EXECUTABLE "$@"
+
+
