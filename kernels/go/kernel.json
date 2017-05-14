@@ -1,0 +1,9 @@
+{
+    "argv": [
+    	"gopherlab", 
+    	"{connection_file}"
+    	],
+    "display_name": "Go",
+    "language": "go",
+    "name": "go"
+}

@@ -1,0 +1,14 @@
+#!/bin/bash -e
+
+if [ "$(which `basename $0`)" = "$0" ]; then
+  echo "Installing go kernel ..."
+  min-apk gallery-go-kernel
+fi
+
+hash -r
+if [ "$(which `basename $0`)" = "$0" ]; then
+  echo "Installation failed!"
+  exit
+fi
+
+$(basename $0) $@

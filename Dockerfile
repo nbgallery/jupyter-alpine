@@ -126,8 +126,9 @@ RUN \
 
 ADD kernels /usr/share/jupyter/kernels/
 ENV JAVA_HOME=/usr/lib/jvm/default-jvm \
-    SPARK_HOME=/usr/spark
-ENV PATH=$PATH:$JAVA_HOME/bin:$SPARK_HOME/bin:/usr/share/jupyter/kernels/installers \
+    SPARK_HOME=/usr/spark \
+    GOPATH=/go
+ENV PATH=$PATH:$JAVA_HOME/bin:$SPARK_HOME/bin:$GOPATH/bin:/usr/share/jupyter/kernels/installers \
     LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$JAVA_HOME/jre/lib/amd64/server
 
 ########################################################################
@@ -143,7 +144,7 @@ RUN \
 # Metadata
 ########################################################################
 
-ENV NBGALLERY_CLIENT_VERSION=5.5.4
+ENV NBGALLERY_CLIENT_VERSION=5.5.5
 
 LABEL gallery.nb.version=$NBGALLERY_CLIENT_VERSION \
       gallery.nb.description="Minimal alpine-based Jupyter notebook server" \
