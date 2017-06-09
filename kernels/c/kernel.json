@@ -1,0 +1,12 @@
+{
+  "display_name": "C",
+  "language": "c",
+  "argv": [
+      "python",
+      "-m",
+      "jupyter_c_kernel",
+      "-f",
+      "{connection_file}"
+  ]
+}
+
