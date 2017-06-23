@@ -114,8 +114,7 @@ RUN \
 ########################################################################
 
 RUN \
-  pip install http://github.com/nbgallery/pypki2/tarball/master#egg=pypki2 && \
-  pip install http://github.com/nbgallery/ipydeps/tarball/master#egg=ipydeps && \
+  min-pip pypki2 ipydeps && \
   clean-pyc-files /usr/lib/python2* && \
   echo "### TODO: applying workaround for https://github.com/nbgallery/ipydeps/issues/7" && \
   sed -i 's/packages = set(packages)/#packages = set(packages)/' /usr/lib/python2*/site-packages/ipydeps/__init__.py
@@ -144,7 +143,7 @@ RUN \
 # Metadata
 ########################################################################
 
-ENV NBGALLERY_CLIENT_VERSION=5.7.0
+ENV NBGALLERY_CLIENT_VERSION=5.8.0
 
 LABEL gallery.nb.version=$NBGALLERY_CLIENT_VERSION \
       gallery.nb.description="Minimal alpine-based Jupyter notebook server" \
