@@ -21,6 +21,7 @@ COPY config/repositories /etc/apk/repositories
 COPY config/*.rsa.pub /etc/apk/keys/
 
 RUN \
+  min-apk binutils && \
   min-apk -u zlib && \
   min-apk \
     bash \
@@ -62,10 +63,14 @@ RUN \
 
 
 ########################################################################
-# Install Python2 & Jupyter
+# Install Python2, Jupyter, ipydeps
 ########################################################################
 
 COPY config/jupyter /root/.jupyter/
+
+# TODO: decorator conflicts with the c++ kernel apk, which we are
+# having trouble re-building.  Just let pip install it for now.
+#    py2-decorator \
 
 RUN \
   min-apk \
@@ -73,7 +78,6 @@ RUN \
     py2-pygments \
     py2-cffi \
     py2-cryptography \
-    py2-decorator \
     py2-jinja2 \
     py2-openssl \
     py2-pexpect \
@@ -83,13 +87,14 @@ RUN \
     python-dev && \
   pip install --no-cache-dir --upgrade setuptools pip && \
   mkdir -p `python -m site --user-site` && \
-  min-pip jupyter ipywidgets jupyterlab jupyter_dashboards && \
+  min-pip jupyter ipywidgets jupyter_dashboards pypki2 && \
+  echo "# temporarily install branch with fix (TODO)" && \
+  pip install --no-cache-dir http://github.com/nbgallery/ipydeps/tarball/initialize_master_working_set#egg=ipydeps && \
   jupyter nbextension enable --py --sys-prefix widgetsnbextension && \
   pip install http://github.com/nbgallery/nbgallery-extensions/tarball/master#egg=jupyter_nbgallery && \
   jupyter serverextension enable --py jupyter_nbgallery && \
   jupyter nbextension install --py jupyter_nbgallery && \
   jupyter nbextension enable jupyter_nbgallery --py && \
-  jupyter serverextension enable --py jupyterlab --sys-prefix && \
   jupyter dashboards quick-setup --sys-prefix && \
   echo "### Cleanup unneeded files" && \
   rm -rf /usr/lib/python2*/*/tests && \
@@ -105,19 +110,48 @@ RUN \
     /usr/lib/python2*/site-packages/notebook/static/tree/js/main.min.js \
     /usr/lib/python2*/site-packages/notebook/static/tree/js/main.min.js.map && \
   patch -p0 < /root/.patches/ipykernel_displayhook && \
-  patch -p0 < /root/.patches/websocket_keepalive && \
-  patch --no-backup-if-mismatch -p0 < /root/.patches/notebook_pr2061 && \
-  /root/.patches/sed_for_pr2061
+  patch -p0 < /root/.patches/websocket_keepalive
+
 
 ########################################################################
-# Install ipydeps
+# Install python3 kernel
 ########################################################################
 
 RUN \
-  min-pip pypki2 ipydeps && \
-  clean-pyc-files /usr/lib/python2* && \
-  echo "### TODO: applying workaround for https://github.com/nbgallery/ipydeps/issues/7" && \
-  sed -i 's/packages = set(packages)/#packages = set(packages)/' /usr/lib/python2*/site-packages/ipydeps/__init__.py
+  min-apk \
+    libffi-dev \
+    py3-cffi \
+    py3-cparser \
+    py3-cryptography \
+    py3-dateutil \
+    py3-decorator \
+    py3-jinja2 \
+    py3-openssl \
+    py3-ptyprocess \
+    py3-six \
+    py3-tornado \
+    py3-zmq \
+    python3 \
+    python3-dev && \
+  pip3 install --no-cache-dir --upgrade setuptools pip && \
+  min-pip3 entrypoints ipykernel ipywidgets pypki2 && \
+  echo "# temporarily install branch with fix (TODO)" && \
+  pip3 install --no-cache-dir http://github.com/nbgallery/ipydeps/tarball/initialize_master_working_set#egg=ipydeps && \
+  echo "### Make sure python2 is still default" && \
+  sed -i -r -e 's/python3(\.\d)?/python2/g' \
+    /usr/bin/jupyter* \
+    /usr/bin/ipython \
+    /usr/bin/iptest \
+    /usr/bin/pip \
+    /usr/bin/easy_install && \
+  echo "### Cleanup unneeded files" && \
+  rm -rf /usr/lib/python3*/*/tests && \
+  rm -rf /usr/lib/python3*/ensurepip && \
+  rm -rf /usr/lib/python3*/idlelib && \
+  rm /usr/lib/python3*/distutils/command/*exe && \
+  rm -rf /usr/share/man/* && \
+  clean-pyc-files /usr/lib/python3*
+
 	
 ########################################################################
 # Add dynamic kernels
@@ -130,6 +164,7 @@ ENV JAVA_HOME=/usr/lib/jvm/default-jvm \
 ENV PATH=$PATH:$JAVA_HOME/bin:$SPARK_HOME/bin:$GOPATH/bin:/usr/share/jupyter/kernels/installers \
     LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$JAVA_HOME/jre/lib/amd64/server
 
+
 ########################################################################
 # Add simple kernels (no extra apks)
 ########################################################################
@@ -139,11 +174,12 @@ RUN \
   python -m bash_kernel.install && \
   clean-pyc-files /usr/lib/python2*
 
+
 ########################################################################
 # Metadata
 ########################################################################
 
-ENV NBGALLERY_CLIENT_VERSION=5.8.0
+ENV NBGALLERY_CLIENT_VERSION=6.0.0
 
 LABEL gallery.nb.version=$NBGALLERY_CLIENT_VERSION \
       gallery.nb.description="Minimal alpine-based Jupyter notebook server" \
