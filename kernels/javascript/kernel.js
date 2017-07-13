@@ -36,17 +36,5 @@ define([
 
   kernels.load();
 
-  // original Ruby kernel.js
-  var onload = function() {
-    Jupyter.CodeCell.options_default['cm_config']['indentUnit'] = 2;
-    var cells = Jupyter.notebook.get_cells();
-    for (var i in cells) {
-      var c = cells[i];
-      if (c.cell_type === 'code') {
-        c.code_mirror.setOption('indentUnit', 2);
-      }
-    }
-  }
-  
   return {onload:onload};
 });
