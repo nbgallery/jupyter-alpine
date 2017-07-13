@@ -17,4 +17,5 @@ fi
 exec jupyter notebook \
 	--certfile=/etc/pki/tls/certs/server.pem \
 	--keyfile=/etc/pki/tls/certs/server.key \
-	--JupyterApp.port=443
+	--JupyterApp.port=443 \
+	--allow-root
