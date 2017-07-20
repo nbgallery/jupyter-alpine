@@ -87,9 +87,7 @@ RUN \
     python-dev && \
   pip install --no-cache-dir --upgrade setuptools pip && \
   mkdir -p `python -m site --user-site` && \
-  min-pip jupyter ipywidgets jupyter_dashboards pypki2 && \
-  echo "# temporarily install branch with fix (TODO)" && \
-  pip install --no-cache-dir http://github.com/nbgallery/ipydeps/tarball/initialize_master_working_set#egg=ipydeps && \
+  min-pip jupyter ipywidgets jupyter_dashboards pypki2 ipydeps && \
   jupyter nbextension enable --py --sys-prefix widgetsnbextension && \
   pip install http://github.com/nbgallery/nbgallery-extensions/tarball/master#egg=jupyter_nbgallery && \
   jupyter serverextension enable --py jupyter_nbgallery && \
@@ -134,9 +132,7 @@ RUN \
     python3 \
     python3-dev && \
   pip3 install --no-cache-dir --upgrade setuptools pip && \
-  min-pip3 entrypoints ipykernel ipywidgets pypki2 && \
-  echo "# temporarily install branch with fix (TODO)" && \
-  pip3 install --no-cache-dir http://github.com/nbgallery/ipydeps/tarball/initialize_master_working_set#egg=ipydeps && \
+  min-pip3 entrypoints ipykernel ipywidgets pypki2 ipydeps && \
   echo "### Make sure python2 is still default" && \
   sed -i -r -e 's/python3(\.\d)?/python2/g' \
     /usr/bin/jupyter* \
@@ -179,7 +175,7 @@ RUN \
 # Metadata
 ########################################################################
 
-ENV NBGALLERY_CLIENT_VERSION=6.0.0
+ENV NBGALLERY_CLIENT_VERSION=6.0.1
 
 LABEL gallery.nb.version=$NBGALLERY_CLIENT_VERSION \
       gallery.nb.description="Minimal alpine-based Jupyter notebook server" \
