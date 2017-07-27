@@ -87,13 +87,15 @@ RUN \
     python-dev && \
   pip install --no-cache-dir --upgrade setuptools pip && \
   mkdir -p `python -m site --user-site` && \
-  min-pip jupyter ipywidgets jupyter_dashboards pypki2 ipydeps && \
+  min-pip jupyter ipywidgets jupyter_dashboards pypki2 ipydeps ordo && \
   jupyter nbextension enable --py --sys-prefix widgetsnbextension && \
   pip install http://github.com/nbgallery/nbgallery-extensions/tarball/master#egg=jupyter_nbgallery && \
   jupyter serverextension enable --py jupyter_nbgallery && \
   jupyter nbextension install --py jupyter_nbgallery && \
   jupyter nbextension enable jupyter_nbgallery --py && \
   jupyter dashboards quick-setup --sys-prefix && \
+  jupyter nbextension install --py ordo && \
+  jupyter nbextension enable ordo --py && \
   echo "### Cleanup unneeded files" && \
   rm -rf /usr/lib/python2*/*/tests && \
   rm -rf /usr/lib/python2*/ensurepip && \
@@ -175,7 +177,7 @@ RUN \
 # Metadata
 ########################################################################
 
-ENV NBGALLERY_CLIENT_VERSION=6.0.1
+ENV NBGALLERY_CLIENT_VERSION=6.0.2
 
 LABEL gallery.nb.version=$NBGALLERY_CLIENT_VERSION \
       gallery.nb.description="Minimal alpine-based Jupyter notebook server" \
