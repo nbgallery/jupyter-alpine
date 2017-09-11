@@ -17,6 +17,11 @@ c.JupyterApp.allow_origin = 'https://nb.gallery'
 # needed to receive notebooks from the gallery
 c.JupyterApp.disable_check_xsrf = True
 
+# Update config from environment
+config_prefix = 'NBGALLERY_CONFIG_'
+for var in [x for x in os.environ if x.startswith(config_prefix)]:
+  c.JupyterApp[var[len(config_prefix):].lower()] = os.environ[var]
+
 def load_config():
   return json.loads(open('/root/.jupyter/nbconfig/common.json').read())
 
