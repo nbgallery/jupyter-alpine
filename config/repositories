@@ -3,4 +3,5 @@ http://dl-cdn.alpinelinux.org/alpine/v3.5/community
 https://nb.gallery/apk
 
 # Uncomment to host apks locally
+#https://localhost/Jupyter/static/apks
 #http://localhost/Jupyter/static/apks
