@@ -18,4 +18,5 @@ exec jupyter notebook \
 	--certfile=/etc/pki/tls/certs/server.pem \
 	--keyfile=/etc/pki/tls/certs/server.key \
 	--JupyterApp.port=443 \
+	--JupyterApp.ssl_options="{'ssl_version':5}" \
 	--allow-root

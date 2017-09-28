@@ -1,6 +1,5 @@
 import json
 import os
-import ssl
 import sys
 sys.path.append('/root/.jupyter/extensions/')
 
@@ -13,7 +12,6 @@ c.JupyterApp.reraise_server_extension_failures = True
 c.JupyterApp.extra_static_paths = ['/root/.jupyter/static']
 c.JupyterApp.extra_nbextensions_path = ['/root/.jupyter/extensions/']
 c.JupyterApp.tornado_settings = {'static_url_prefix': '/Jupyter/static/'}
-c.JupyterApp.ssl_options = {'ssl_version': ssl.PROTOCOL_TLSv1_2}
 c.JupyterApp.allow_origin = 'https://nb.gallery'
 
 # needed to receive notebooks from the gallery
