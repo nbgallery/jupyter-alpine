@@ -87,7 +87,7 @@ RUN \
     python-dev && \
   pip install --no-cache-dir --upgrade setuptools pip && \
   mkdir -p `python -m site --user-site` && \
-  min-pip jupyter ipywidgets jupyter_dashboards pypki2 ipydeps ordo && \
+  min-pip jupyter ipywidgets==6.0.1 jupyter_dashboards pypki2 ipydeps ordo && \
   jupyter nbextension enable --py --sys-prefix widgetsnbextension && \
   pip install http://github.com/nbgallery/nbgallery-extensions/tarball/master#egg=jupyter_nbgallery && \
   jupyter serverextension enable --py jupyter_nbgallery && \
@@ -134,7 +134,7 @@ RUN \
     python3 \
     python3-dev && \
   pip3 install --no-cache-dir --upgrade setuptools pip && \
-  min-pip3 entrypoints ipykernel ipywidgets pypki2 ipydeps && \
+  min-pip3 entrypoints ipykernel ipywidgets==6.0.1 pypki2 ipydeps && \
   echo "### Make sure python2 is still default" && \
   sed -i -r -e 's/python3(\.\d)?/python2/g' \
     /usr/bin/jupyter* \
@@ -146,7 +146,6 @@ RUN \
   rm -rf /usr/lib/python3*/*/tests && \
   rm -rf /usr/lib/python3*/ensurepip && \
   rm -rf /usr/lib/python3*/idlelib && \
-  rm /usr/lib/python3*/distutils/command/*exe && \
   rm -rf /usr/share/man/* && \
   clean-pyc-files /usr/lib/python3*
 
@@ -177,7 +176,7 @@ RUN \
 # Metadata
 ########################################################################
 
-ENV NBGALLERY_CLIENT_VERSION=6.0.4
+ENV NBGALLERY_CLIENT_VERSION=6.0.5
 
 LABEL gallery.nb.version=$NBGALLERY_CLIENT_VERSION \
       gallery.nb.description="Minimal alpine-based Jupyter notebook server" \
