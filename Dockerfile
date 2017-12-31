@@ -167,7 +167,7 @@ ENV PATH=$PATH:$JAVA_HOME/bin:$SPARK_HOME/bin:$GOPATH/bin:/usr/share/jupyter/ker
 ########################################################################
 
 RUN \
-  min-pip bash_kernel jupyter_c_kernel && \
+  min-pip bash_kernel jupyter_c_kernel==1.0.0 && \
   python -m bash_kernel.install && \
   clean-pyc-files /usr/lib/python2*
 
@@ -176,7 +176,7 @@ RUN \
 # Metadata
 ########################################################################
 
-ENV NBGALLERY_CLIENT_VERSION=6.0.5
+ENV NBGALLERY_CLIENT_VERSION=6.0.6
 
 LABEL gallery.nb.version=$NBGALLERY_CLIENT_VERSION \
       gallery.nb.description="Minimal alpine-based Jupyter notebook server" \
