@@ -96,6 +96,7 @@ RUN \
 ########################################################################
 
 COPY config/jupyter /root/.jupyter/
+COPY config/ipydeps /root/.config/ipydeps/
 
 # TODO: decorator conflicts with the c++ kernel apk, which we are
 # having trouble re-building.  Just let pip install it for now.
