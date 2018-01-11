@@ -10,6 +10,6 @@
         "JAVA_HOME": "/usr/lib/jvm/java-1.8-openjdk",
         "PIG_HOME": "/usr/pig",
         "HADOOP_HOME": "/usr/hadoop",
-        "LOG4J_CONF_FILE": "/usr/lib/python2.7/site-packages/pig-log4j.properties"
+        "LOG4J_CONF_FILE": "/usr/lib/python3.6/site-packages/pig-log4j.properties"
     }
 }
