@@ -1,6 +1,6 @@
 {
     "argv": [
-    	"gopherlab", 
+    	"gophernotes", 
     	"{connection_file}"
     	],
     "display_name": "Go",
