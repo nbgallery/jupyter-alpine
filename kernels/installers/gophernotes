@@ -1,0 +1,19 @@
+#!/bin/bash -e
+
+
+EXECUTABLE=/go/bin/gophernotes
+
+if [ ! -e "$EXECUTABLE" ]; then
+  echo "Installing go kernel ..."
+  min-apk gallery-go-kernel
+
+fi
+
+hash -r
+if [ ! -e "$EXECUTABLE" ]; then
+  echo "Installation failed!"
+  exit
+fi
+
+#Run the kernel
+exec $EXECUTABLE "$@"
