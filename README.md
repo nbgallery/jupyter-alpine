@@ -10,9 +10,17 @@ For more information, please check out [this post](https://nbgallery.github.io/J
 
 Remember that docker commands usually need to be run as root or via sudo.
 
-You can pull the image from Docker Hub: `docker pull nbgallery/jupyter-alpine`.
+You can pull the image from Docker Hub: 
 
-To build the image from source, clone or download the repo.  Then run `docker build -t nbgallery/jupyter-alpine:<version> .` from the project directory.
+```
+docker pull nbgallery/jupyter-alpine
+```
+
+To build the image from source, clone or download the repo.  Then build with something like this:
+
+```
+docker build -t nbgallery/jupyter-alpine:<version> <source-directory>
+```
 
 ## Running the image
 
