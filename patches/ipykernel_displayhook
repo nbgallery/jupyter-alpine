@@ -1,5 +1,5 @@
---- /usr/lib/python2.7/site-packages/ipykernel/kernelapp.py.orig
-+++ /usr/lib/python2.7/site-packages/ipykernel/kernelapp.py
+--- /usr/lib/python3.6/site-packages/ipykernel/kernelapp.py.orig
++++ /usr/lib/python3.6/site-packages/ipykernel/kernelapp.py
 @@ -370,7 +370,8 @@
          self.kernel = kernel
  

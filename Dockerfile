@@ -1,4 +1,4 @@
-FROM alpine:3.5
+FROM alpine:3.7
 MAINTAINER team@nb.gallery
 
 ########################################################################
@@ -22,7 +22,6 @@ COPY config/*.rsa.pub /etc/apk/keys/
 
 RUN \
   min-apk binutils && \
-  min-apk -u zlib && \
   min-apk \
     bash \
     bzip2 \
@@ -63,33 +62,64 @@ RUN \
 
 
 ########################################################################
-# Install Python2, Jupyter, ipydeps
+# Install python2 kernel
+########################################################################
+
+RUN \
+  min-apk \
+    py2-cffi \
+    py2-cparser \
+    py2-cryptography \
+    py2-dateutil \
+    py2-decorator \
+    py2-jinja2 \
+    py2-openssl \
+    py2-pip \
+    py2-ptyprocess \
+    py2-six \
+    py2-tornado \
+    py2-zmq \
+    python2 \
+    python2-dev && \
+  pip install --no-cache-dir --upgrade setuptools pip && \
+  min-pip2 entrypoints ipykernel ipywidgets==6.0.1 pypki2 ipydeps && \
+  echo "### Cleanup unneeded files" && \
+  rm -rf /usr/lib/python2*/*/tests && \
+  rm -rf /usr/lib/python2*/ensurepip && \
+  rm -rf /usr/lib/python2*/idlelib && \
+  rm -rf /usr/share/man/* && \
+  clean-pyc-files /usr/lib/python2*
+
+
+########################################################################
+# Install Python3, Jupyter, ipydeps
 ########################################################################
 
 COPY config/jupyter /root/.jupyter/
+COPY config/ipydeps /root/.config/ipydeps/
 
 # TODO: decorator conflicts with the c++ kernel apk, which we are
 # having trouble re-building.  Just let pip install it for now.
-#    py2-decorator \
+#    py3-decorator \
 
 RUN \
   min-apk \
     libffi-dev \
-    py2-pygments \
-    py2-cffi \
-    py2-cryptography \
-    py2-jinja2 \
-    py2-openssl \
-    py2-pexpect \
-    py2-pip \
-    py2-tornado \
-    python \
-    python-dev && \
-  pip install --no-cache-dir --upgrade setuptools pip && \
+    py3-pygments \
+    py3-cffi \
+    py3-cryptography \
+    py3-jinja2 \
+    py3-openssl \
+    py3-pexpect \
+    py3-tornado \
+    python3 \
+    python3-dev && \
+  pip3 install --no-cache-dir --upgrade setuptools pip && \
   mkdir -p `python -m site --user-site` && \
-  min-pip jupyter ipywidgets==6.0.1 jupyter_dashboards pypki2 ipydeps ordo && \
+  min-pip3 jupyter ipywidgets==6.0.1 jupyter_dashboards pypki2 ipydeps ordo && \
+  pip3 install http://github.com/nbgallery/nbgallery-extensions/tarball/master#egg=jupyter_nbgallery && \
+  echo "### Install jupyter extensions" && \
   jupyter nbextension enable --py --sys-prefix widgetsnbextension && \
-  pip install http://github.com/nbgallery/nbgallery-extensions/tarball/master#egg=jupyter_nbgallery && \
   jupyter serverextension enable --py jupyter_nbgallery && \
   jupyter nbextension install --py jupyter_nbgallery && \
   jupyter nbextension enable jupyter_nbgallery --py && \
@@ -97,59 +127,22 @@ RUN \
   jupyter nbextension install --py ordo && \
   jupyter nbextension enable ordo --py && \
   echo "### Cleanup unneeded files" && \
-  rm -rf /usr/lib/python2*/*/tests && \
-  rm -rf /usr/lib/python2*/ensurepip && \
-  rm -rf /usr/lib/python2*/idlelib && \
-  rm /usr/lib/python2*/distutils/command/*exe && \
+  rm -rf /usr/lib/python3*/*/tests && \
+  rm -rf /usr/lib/python3*/ensurepip && \
+  rm -rf /usr/lib/python3*/idlelib && \
+  rm -f /usr/lib/python3*/distutils/command/*exe && \
   rm -rf /usr/share/man/* && \
-  clean-pyc-files /usr/lib/python2* && \
+  clean-pyc-files /usr/lib/python3* && \
   echo "### Apply patches" && \
   cd / && \
   sed -i 's/_max_upload_size_mb = [0-9][0-9]/_max_upload_size_mb = 50/g' \
-    /usr/lib/python2*/site-packages/notebook/static/tree/js/notebooklist.js \
-    /usr/lib/python2*/site-packages/notebook/static/tree/js/main.min.js \
-    /usr/lib/python2*/site-packages/notebook/static/tree/js/main.min.js.map && \
+    /usr/lib/python3*/site-packages/notebook/static/tree/js/notebooklist.js \
+    /usr/lib/python3*/site-packages/notebook/static/tree/js/main.min.js \
+    /usr/lib/python3*/site-packages/notebook/static/tree/js/main.min.js.map && \
   patch -p0 < /root/.patches/ipykernel_displayhook && \
   patch -p0 < /root/.patches/websocket_keepalive
 
 
-########################################################################
-# Install python3 kernel
-########################################################################
-
-RUN \
-  min-apk \
-    libffi-dev \
-    py3-cffi \
-    py3-cparser \
-    py3-cryptography \
-    py3-dateutil \
-    py3-decorator \
-    py3-jinja2 \
-    py3-openssl \
-    py3-ptyprocess \
-    py3-six \
-    py3-tornado \
-    py3-zmq \
-    python3 \
-    python3-dev && \
-  pip3 install --no-cache-dir --upgrade setuptools pip && \
-  min-pip3 entrypoints ipykernel ipywidgets==6.0.1 pypki2 ipydeps && \
-  echo "### Make sure python2 is still default" && \
-  sed -i -r -e 's/python3(\.\d)?/python2/g' \
-    /usr/bin/jupyter* \
-    /usr/bin/ipython \
-    /usr/bin/iptest \
-    /usr/bin/pip \
-    /usr/bin/easy_install && \
-  echo "### Cleanup unneeded files" && \
-  rm -rf /usr/lib/python3*/*/tests && \
-  rm -rf /usr/lib/python3*/ensurepip && \
-  rm -rf /usr/lib/python3*/idlelib && \
-  rm -rf /usr/share/man/* && \
-  clean-pyc-files /usr/lib/python3*
-
-	
 ########################################################################
 # Add dynamic kernels
 ########################################################################
@@ -167,16 +160,16 @@ ENV PATH=$PATH:$JAVA_HOME/bin:$SPARK_HOME/bin:$GOPATH/bin:/usr/share/jupyter/ker
 ########################################################################
 
 RUN \
-  min-pip bash_kernel jupyter_c_kernel==1.0.0 && \
-  python -m bash_kernel.install && \
-  clean-pyc-files /usr/lib/python2*
+  min-pip3 bash_kernel jupyter_c_kernel==1.0.0 && \
+  python3 -m bash_kernel.install && \
+  clean-pyc-files /usr/lib/python3*
 
 
 ########################################################################
 # Metadata
 ########################################################################
 
-ENV NBGALLERY_CLIENT_VERSION=6.0.6
+ENV NBGALLERY_CLIENT_VERSION=7.0.3
 
 LABEL gallery.nb.version=$NBGALLERY_CLIENT_VERSION \
       gallery.nb.description="Minimal alpine-based Jupyter notebook server" \

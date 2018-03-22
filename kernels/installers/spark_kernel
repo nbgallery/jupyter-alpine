@@ -8,6 +8,8 @@ fi
 # Needed for standalone hadoop installation
 # export SPARK_DIST_CLASSPATH=$(hadoop classpath)
 
+# WARNING - DO NOT UPDATE TO PYTHON 3 !!!
+# Kernel doesn't seem to work with python3
 EXECUTABLE=/usr/lib/python2.7/site-packages/toree/bin/run.sh
 
 # Install Toree if needed
