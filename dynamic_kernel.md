@@ -1,0 +1,19 @@
+## How to make a dynamic kernel that installs on first use
+
+The main idea is to have the right files in place so Jupyter thinks the kernel is installed, but to hook the kernel's executable such that it installs the meat of the kernel the first time it gets executed.  This is accomplished with some simple bash scripting.
+
+### Method 1: $PATH trickery
+
+This is perhaps overly clever, and we're planning to take a simpler approach, but this is our original approach.  This works by putting a script with the same name as the kernel's executable in a directory at the end of $PATH.  The first time the kernel runs, the real executable isn't present, so our installer gets called.  The installer then installs the real executable, which lives in a directory earlier in $PATH like /usr/bin.  Subsequent calls for that executable will then find the real one since it's earlier in $PATH.
+
+For example, let's look at [the R kernel](https://github.com/nbgallery/jupyter-docker/tree/master/kernels/R) as installed in the docker image.  The `js` and `json` files (and optionally the logo `png`) are enough to make Jupyter happy.  The `json` file says that [the executable for the kernel is R](https://github.com/nbgallery/jupyter-docker/blob/2f220add5c19132782a1d333dd2313a782311ba8/kernels/R/kernel.json#L2).  However, R is not installed in our docker image out of the box, so what actually runs is [our installer by the same name](https://github.com/nbgallery/jupyter-docker/blob/master/kernels/installers/R).  The installer does a check `"$(which `basename $0`)" = "$0"` to see if the real R is installed.  If not, it installs the [gallery-R-kernel apk](https://github.com/nbgallery/apks/tree/master/gallery-R-kernel) that we maintain, plus some other dependencies.  It then does the same "which $0" check to see if that succeeded.  Finally, it calls `$(basename $0) $@`, which redirects execution to the real R executable.  Because the installer and the executable have the same name (`R`), the next time an R notebook is started, it will call the real R executable directly because it's earlier in $PATH than our installer.
+
+### Method 2: separate scripts
+
+This is more straightforward.  This works by modifying the `kernel.json` to call our installer instead of the real executable.  The installer then checks if the real executable is installed, and installs it if needed.  It then redirects execution to the real executable.
+
+For example, let's look at [the spark kernel](https://github.com/nbgallery/jupyter-docker/tree/master/kernels/spark_pyspark).  We've changed the [executable in the json file](https://github.com/nbgallery/jupyter-docker/blob/2f220add5c19132782a1d333dd2313a782311ba8/kernels/spark_pyspark/kernel.json#L13) to point to [our installer](https://github.com/nbgallery/jupyter-docker/blob/master/kernels/installers/spark_kernel).  The installer installs the real spark kernel if needed, then redirects execution to it.
+
+### Kernel apks
+
+In most cases we install the meat of a kernel with an Alpine apk from [this repository](https://github.com/nbgallery/apks).  For example, the [nodejs kernel apk](https://github.com/nbgallery/apks/blob/master/gallery-nodejs-kernel/APKBUILD) installs nodejs (as an apk dependency) and the Jupyter kernel (as an npm package inside our apk).  Bundling the kernel into an apk is convenient but not strictly necessary.  For example, our octave kernel installer installs our [octave apk](https://github.com/nbgallery/jupyter-docker/blob/2f220add5c19132782a1d333dd2313a782311ba8/kernels/installers/octave_kernel#L5) (which contains just octave, not the Jupyter kernel), and the Jupyter kernel itself is just a [pip install](https://github.com/nbgallery/jupyter-docker/blob/2f220add5c19132782a1d333dd2313a782311ba8/kernels/installers/octave_kernel#L7).  If the pip install took a long time (for example, if it had to compile native code), it might be preferred to package it as a (pre-compiled) apk.
