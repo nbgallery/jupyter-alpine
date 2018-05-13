@@ -82,7 +82,7 @@ RUN \
     python2 \
     python2-dev && \
   pip install --no-cache-dir --upgrade setuptools pip && \
-  min-pip2 entrypoints ipykernel ipywidgets==6.0.1 pypki2 ipydeps && \
+  min-pip2 entrypoints notebook==5.2.2 ipykernel ipywidgets==6.0.1 pypki2 ipydeps && \
   echo "### Cleanup unneeded files" && \
   rm -rf /usr/lib/python2*/*/tests && \
   rm -rf /usr/lib/python2*/ensurepip && \
@@ -116,7 +116,7 @@ RUN \
     python3-dev && \
   pip3 install --no-cache-dir --upgrade setuptools pip && \
   mkdir -p `python -m site --user-site` && \
-  min-pip3 jupyter ipywidgets==6.0.1 jupyter_dashboards pypki2 ipydeps ordo && \
+  min-pip3 notebook==5.2.2 jupyter ipywidgets==6.0.1 jupyter_dashboards pypki2 ipydeps ordo && \
   pip3 install http://github.com/nbgallery/nbgallery-extensions/tarball/master#egg=jupyter_nbgallery && \
   echo "### Install jupyter extensions" && \
   jupyter nbextension enable --py --sys-prefix widgetsnbextension && \
@@ -169,7 +169,7 @@ RUN \
 # Metadata
 ########################################################################
 
-ENV NBGALLERY_CLIENT_VERSION=7.0.3
+ENV NBGALLERY_CLIENT_VERSION=7.0.4
 
 LABEL gallery.nb.version=$NBGALLERY_CLIENT_VERSION \
       gallery.nb.description="Minimal alpine-based Jupyter notebook server" \
