@@ -37,7 +37,8 @@ RUN \
     patch \
     readline-dev \
     tar \
-    tini && \
+    tini \
+    wget && \
   echo "### Install specific version of zeromq from source" && \
   min-package https://archive.org/download/zeromq_4.0.4/zeromq-4.0.4.tar.gz && \
   ln -s /usr/local/lib/libzmq.so.3 /usr/local/lib/libzmq.so.4 && \
@@ -168,7 +169,7 @@ RUN \
 # Metadata
 ########################################################################
 
-ENV NBGALLERY_CLIENT_VERSION=7.8.0
+ENV NBGALLERY_CLIENT_VERSION=7.8.1
 
 LABEL gallery.nb.version=$NBGALLERY_CLIENT_VERSION \
       gallery.nb.description="Minimal alpine-based Jupyter notebook server" \
