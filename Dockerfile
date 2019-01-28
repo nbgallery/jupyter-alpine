@@ -1,4 +1,4 @@
-FROM alpine:3.7
+FROM alpine:3.8
 
 ########################################################################
 # Set up OS
@@ -46,7 +46,6 @@ RUN \
   if [ ! -f /usr/include/xlocale.h ]; then echo '#include <locale.h>' > /usr/include/xlocale.h; fi && \
   echo "### Cleanup unneeded files" && \
   clean-terminfo && \
-  rm /bin/bashbug && \
   rm /usr/local/share/man/*/zmq* && \
   rm -rf /usr/include/c++/*/java && \
   rm -rf /usr/include/c++/*/javax && \
@@ -169,7 +168,7 @@ RUN \
 # Metadata
 ########################################################################
 
-ENV NBGALLERY_CLIENT_VERSION=7.0.7
+ENV NBGALLERY_CLIENT_VERSION=7.8.0
 
 LABEL gallery.nb.version=$NBGALLERY_CLIENT_VERSION \
       gallery.nb.description="Minimal alpine-based Jupyter notebook server" \

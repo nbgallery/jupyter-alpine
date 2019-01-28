@@ -1,6 +1,6 @@
-http://dl-cdn.alpinelinux.org/alpine/v3.7/main
-http://dl-cdn.alpinelinux.org/alpine/v3.7/community
-http://apk.nbgallery.s3-us-west-2.amazonaws.com/alpine37
+http://dl-cdn.alpinelinux.org/alpine/v3.8/main
+http://dl-cdn.alpinelinux.org/alpine/v3.8/community
+http://apk.nbgallery.s3-us-west-2.amazonaws.com/alpine38
 
 # Uncomment to host apks locally
 #https://localhost/Jupyter/static/apks
