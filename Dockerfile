@@ -1,5 +1,4 @@
 FROM alpine:3.8
-MAINTAINER team@nb.gallery
 
 ########################################################################
 # Set up OS
@@ -173,4 +172,5 @@ ENV NBGALLERY_CLIENT_VERSION=7.8.0
 
 LABEL gallery.nb.version=$NBGALLERY_CLIENT_VERSION \
       gallery.nb.description="Minimal alpine-based Jupyter notebook server" \
-      gallery.nb.URL="https://github.com/nbgallery"
+      gallery.nb.URL="https://github.com/nbgallery" \
+      maintainer="https://github.com/nbgallery"
