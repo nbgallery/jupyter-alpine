@@ -30,7 +30,9 @@ RUN \
     gcc \
     g++ \
     git \
+    libffi-dev \
     libressl \
+    libressl-dev \
     libsodium-dev \
     make \
     openssh-client \
@@ -81,6 +83,7 @@ RUN \
     py2-zmq \
     python2 \
     python2-dev && \
+  pip install cryptography==2.1.4 && \
   pip install --no-cache-dir --upgrade setuptools pip && \
   min-pip2 entrypoints notebook==5.2.2 ipykernel ipywidgets==6.0.1 pypki2 ipydeps && \
   echo "### Cleanup unneeded files" && \
@@ -104,7 +107,6 @@ COPY config/ipydeps /root/.config/ipydeps/
 
 RUN \
   min-apk \
-    libffi-dev \
     py3-pygments \
     py3-cffi \
     py3-cryptography \
@@ -114,6 +116,7 @@ RUN \
     py3-tornado \
     python3 \
     python3-dev && \
+  pip3 install cryptography==2.1.4 && \
   pip3 install --no-cache-dir --upgrade setuptools pip && \
   mkdir -p `python -m site --user-site` && \
   min-pip3 notebook==5.2.2 jupyter ipywidgets==6.0.1 jupyter_dashboards pypki2 ipydeps ordo && \
