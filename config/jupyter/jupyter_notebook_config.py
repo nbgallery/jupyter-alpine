@@ -44,3 +44,13 @@ if client_name:
   config = load_config()
   config['nbgallery']['client']['name'] = client_name
   save_config(config)
+
+# Enable optional nbgallery extensions
+if os.getenv('NBGALLERY_ENABLE_INSTRUMENTATION'):
+  config = load_config()
+  config['nbgallery']['extra_integration']['notebook'].append('gallery-instrumentation.js')
+  save_config(config)
+if os.getenv('NBGALLERY_ENABLE_AUTODOWNLOAD'):
+  config = load_config()
+  config['nbgallery']['extra_integration']['tree'].append('gallery-autodownload.js')
+  save_config(config)
