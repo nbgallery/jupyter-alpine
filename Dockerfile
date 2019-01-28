@@ -1,5 +1,4 @@
 FROM alpine:3.7
-MAINTAINER team@nb.gallery
 
 ########################################################################
 # Set up OS
@@ -170,8 +169,9 @@ RUN \
 # Metadata
 ########################################################################
 
-ENV NBGALLERY_CLIENT_VERSION=7.0.6
+ENV NBGALLERY_CLIENT_VERSION=7.0.7
 
 LABEL gallery.nb.version=$NBGALLERY_CLIENT_VERSION \
       gallery.nb.description="Minimal alpine-based Jupyter notebook server" \
-      gallery.nb.URL="https://github.com/nbgallery"
+      gallery.nb.URL="https://github.com/nbgallery" \
+      maintainer="https://github.com/nbgallery"
