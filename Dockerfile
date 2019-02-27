@@ -172,7 +172,7 @@ RUN \
 # Metadata
 ########################################################################
 
-ENV NBGALLERY_CLIENT_VERSION=7.0.7
+ENV NBGALLERY_CLIENT_VERSION=7.0.8
 
 LABEL gallery.nb.version=$NBGALLERY_CLIENT_VERSION \
       gallery.nb.description="Minimal alpine-based Jupyter notebook server" \
