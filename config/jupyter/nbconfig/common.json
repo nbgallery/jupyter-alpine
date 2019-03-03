@@ -1,6 +1,6 @@
 {
   "nbgallery": {
-    "url": "https://nb.gallery",
+    "url": "https://localhost:3000",
     "client": {
       "name": "nbgallery-client"
     },
